@@ -240,8 +240,9 @@ sudo adduser $USER libvirt # created after installing libvirt
 Exit from the container (run `exit` command) to apply changes made above.
 
 You may want to load [my dotfiles](https://github.com/mars-low/dotfiles) inside the container:
+
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply mars-low
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/mars-low/myminidevenv.git
 ```
 
 The basic maintenance of podman containers:
@@ -530,4 +531,11 @@ npm install -g @devcontainers/cli
 devcontainer outdated --workspace-folder .
 rm .devcontainer/devcontainer-lock.json
 devcontainer upgrade --workspace-folder .
+```
+
+## bumble
+
+```sh
+bumble-hci-bridge android-netsim:name=bumble1 tcp-client:127.0.0.1:3456
+bumble-hci-bridge android-netsim:name=bumble2 tcp-client:127.0.0.1:3457
 ```
