@@ -522,3 +522,12 @@ qemu-system-aarch64 -bios coreboot/build/coreboot.rom \
 -display none -m 8192 \
 -qmp unix:/tmp/qmp-sock,server=on,wait=offq
 ```
+
+## [devcontainers](https://github.com/devcontainers)
+
+```sh
+npm install -g @devcontainers/cli
+devcontainer outdated --workspace-folder .
+rm .devcontainer/devcontainer-lock.json
+devcontainer upgrade --workspace-folder .
+```
