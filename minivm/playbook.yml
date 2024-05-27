@@ -1,0 +1,138 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Add /usr/sbin dir to system-wide $PATH
+      vars:
+        sbin_path: /usr/sbin
+      copy:
+        dest: /etc/profile.d/custom-path.sh
+        content: 'PATH=$PATH:{{ sbin_path }}'
+
+    - name: Get dpkg architecture
+      shell: dpkg --print-architecture
+      register: dpkg_print_arch
+      run_once: true
+    
+    - set_fact: dpkg_arch={{ dpkg_print_arch.stdout }}
+
+    - name: Uninstall old docker versions
+      apt:
+        pkg:
+          - docker.io
+          - docker-doc
+          - docker-compose
+          - podman-docker
+          - containerd
+          - runc
+        state: absent
+
+    - name: Install pre-requisites
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - apt-transport-https
+        state: latest
+        update_cache: yes
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb [arch={{ dpkg_arch }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+
+    # https://github.com/Realtek-OpenSource/android_hardware_realtek/tree/rtk1395/bt/rtkbt/Firmware/BT
+    - name: Install driver for bluetooth controller
+      apt:
+        deb: http://ftp.us.debian.org/debian/pool/non-free/f/firmware-nonfree/firmware-realtek_20230210-5~bpo11+1_all.deb
+
+    - name: Install tools
+      apt:
+        pkg:
+          - usbutils
+          - tmux
+          - unzip
+          - rsync
+          - jq
+          - pipx
+          - zram-tools
+          - default-jre
+          - adb
+          - socat
+          - usbip
+          - cpu-checker
+          - podman
+          - catatonit
+          - qemu-kvm
+          - libvirt-daemon-system
+          - libvirt-clients
+          - virtinst
+          - genisoimage
+          - net-tools
+          - dnsmasq
+          - bridge-utils
+          - devscripts
+          - config-package-dev
+          - debhelper-compat
+          - golang
+        state: latest
+        install_recommends: no
+        update_cache: yes
+
+    - name: Add codespace user to groups
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker,kvm,libvirt
+        append: yes
+
+    - name: Add the usbip-core module
+      community.general.modprobe:
+        name: usbip-core
+        state: present
+
+    - name: Add the usbip-host module
+      community.general.modprobe:
+        name: usbip-host
+        state: present
+
+    - name: Add the vhci-hcd module
+      community.general.modprobe:
+        name: vhci-hcd
+        state: present
+
+    - name: Add the usbmon module
+      community.general.modprobe:
+        name: usbmon
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+
+    - name: Install ansible with pipx
+      become: true
+      become_user: codespace
+      community.general.pipx:
+        executable: /usr/bin/pipx
+        name: ansible
+        install_deps: true

@@ -1,0 +1,250 @@
+name: Docker
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+      - name: Increase space
+        run: |
+          set -x
+          echo "::group::installed"
+          apt list --installed
+          echo "::endgroup::"
+          echo "::group::packages"
+          #
+          sudo apt-get -yq update
+          # apt-get packages to uninstall
+          packages=(
+            ant
+            ant-optional
+            apache2
+            azure-cli
+            mongodb-org
+            r-base
+            ruby-full
+            postgresql
+            postgresql-client
+            libpq-dev
+            chrpath
+            libssl-dev
+            libxft-dev
+            libfreetype6
+            libfreetype6-dev
+            libfontconfig1
+            libfontconfig1-dev
+            nginx
+            mssql-tools
+            unixodbc-dev
+            mysql-client
+            mysql-server
+            libmysqlclient-dev
+            mono-complete
+            nuget
+            mercurial
+            hhvm
+            ghc*
+            gh
+            gfortran*
+            g++*
+            esl-erlang
+            dotnet-sdk*
+            podman
+            buildah
+            skopeo
+            google-cloud-sdk
+            clang-*
+            lldb-*
+            lld-*
+            clang-format-*
+          )
+          #
+          sudo apt-get remove --allow-remove-essential -y ${packages[@]} || true
+          echo "::endgroup::"
+          echo "::group::paths"
+          # paths to rm -rf
+          paths=(
+              /opt
+              /tmp/*
+              /etc/skel
+              /usr/local
+              /usr/lib/llvm*
+              /usr/lib/mono
+              /usr/lib/gcc
+              /usr/lib/rustlib
+              /usr/share/sbt
+              /usr/share/ant
+              /usr/share/java
+              /usr/share/az_*
+              /usr/share/mono*
+              /usr/share/php*
+              /usr/share/rust
+              /usr/share/swift
+              /usr/share/gradle*
+              /usr/share/dotnet
+              /usr/share/miniconda
+              /usr/share/ImageMagick*
+              /usr/share/apache-maven*
+              /usr/local/bin
+              /usr/local/julia*
+              /usr/local/aws-cli
+              /usr/local/graalvm
+              /usr/local/cmake*
+              /usr/local/sqlpackage
+              /usr/local/share/boost
+              /usr/local/share/chrome_driver
+              /usr/local/share/gecko_driver
+              /usr/local/share/chromium
+              /usr/local/share/phantomjs*
+              /usr/local/share/powershell
+              /usr/local/share/cmake-*
+              /usr/local/share/vcpkg
+              /usr/local/share/.cache
+              /usr/local/lib/lein
+              /usr/local/lib/android
+              /usr/local/lib/heroku
+              /usr/local/lib/node_modules
+              /usr/local/lib
+              /usr/lib/node_modules
+              /usr/lib/jvm
+              /home/linuxbrew
+          )
+          #
+          sudo rm -rf ${paths[@]} || true
+          echo "::endgroup::"
+          sudo swapoff -a
+          echo "::group::files"
+          # files to rm -f
+          files=(
+            /swapfile
+            /usr/bin/yq
+            /usr/bin/composer
+            /usr/bin/google-chrome
+            /usr/bin/chromium-browser
+            /usr/bin/chromium
+            /usr/local/bin/aliyun
+            /usr/local/bin/azcopy
+            /usr/local/bin/bicep
+            /usr/local/bin/oras
+            /usr/local/bin/bazel
+            /usr/local/bin/vercel
+            /usr/local/bin/rebar3
+            /usr/local/bin/now
+            /usr/local/bin/oc*
+            /usr/local/bin/terraform*
+            /usr/local/bin/minikube
+            /usr/local/bin/kubectl
+            /usr/local/bin/kustomize
+            /usr/local/bin/kind
+            /usr/local/bin/pulumi*
+            /usr/local/bin/phpunit
+          )
+          #
+          sudo rm -vf ${files[@]} || true
+          echo "::endgroup::"
+          echo "::group::misc"
+          #
+          sudo docker system prune -a -f
+          #
+          sudo apt-get -y autoremove
+          sudo apt-get -y clean
+          sudo rm -rf /var/cache/*
+          echo "::endgroup::"
+          echo "::group::spacecheck"
+          df -H -a
+          echo "::endgroup::"
+  
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 48128
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3.3.0
+        with:
+          cosign-release: 'v2.2.2'
+
+      # Workaround: https://github.com/docker/build-push-action/issues/461
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v3.0.0
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5.4.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v5.1.0
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+      # Sign the resulting Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ steps.meta.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
