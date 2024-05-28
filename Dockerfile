@@ -1,6 +1,5 @@
-# See here for image contents: https://github.com/mars-low/devcontainer
-
-FROM ghcr.io/mars-low/devcontainer:latest
+# See here for image contents: https://github.com/mars-low/myminidevenv
+FROM ghcr.io/mars-low/myminidevenv:latest
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_NOLOGO=1
