@@ -286,14 +286,14 @@ ssh -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o Globa
 Connect with ssh from the host to the container with _debian-12_ VM as a jump server and redirect a few ports:
 
 ```sh
-sh -A -F $( vl ssh_config > .ssh_config | echo .ssh_config) codespace@localhost -p 2222 -J debian-12 -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5038:127.0.0.1:5037 -L 7173:127.0.0.1:7173 -L 8443:127.0.0.1:8443 -L 5013:127.0.0.1:5013 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3240:127.0.0.1:3240 -R 3241:127.0.0.1:3241 -R 3242:127.0.0.1:3242 -R 3243:127.0.0.1:3243 -R 4656:127.0.0.1:4656 -R 4657:127.0.0.1:4657
+sh -A -F $( vl ssh_config > .ssh_config | echo .ssh_config) codespace@localhost -p 2222 -J debian-12 -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5038:127.0.0.1:5037 -L 7173:127.0.0.1:7173 -L 8443:127.0.0.1:8443 -L 5013:127.0.0.1:5013 -L 9222:127.0.0.1:9222 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3240:127.0.0.1:3240 -R 3241:127.0.0.1:3241 -R 3242:127.0.0.1:3242 -R 3243:127.0.0.1:3243 -R 4656:127.0.0.1:4656 -R 4657:127.0.0.1:4657 -o EnableEscapeCommandline=yes
 ```
 
 Given that host itself runs ssh server and you can connect to it with `ssh antcon`, you can further redirect ports.
 SSH connection between libvirt host and VM guest listed above must be still active.
 
 ```sh
-ssh antcon -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5000:127.0.0.1:5000 -L 5001:127.0.0.1:5001 -L 5038:127.0.0.1:5038 -L 8443:127.0.0.1:8443 -L 7173:127.0.0.1:7173 -L 5013:127.0.0.1:5013 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3243:127.0.0.1:3243 -R 27185:127.0.0.1:27185 -R 4657:127.0.0.1:4657
+ssh antcon -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5000:127.0.0.1:5000 -L 5001:127.0.0.1:5001 -L 5038:127.0.0.1:5038 -L 8443:127.0.0.1:8443 -L 7173:127.0.0.1:7173 -L 5013:127.0.0.1:5013 -L 9222:127.0.0.1:9222 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3243:127.0.0.1:3243 -R 27185:127.0.0.1:27185 -R 4657:127.0.0.1:4657 -o EnableEscapeCommandline=yes
 ```
 
 # Usage
@@ -448,6 +448,12 @@ Add _flathub_ remote if you want to install "official" applications:
 HOME=$FLATPAK_HOME flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
+Update installed apps:
+
+```sh
+HOME=$FLATPAK_HOME flatpak update --user
+```
+
 ## audio
 
 `pipewire` is used for audio management.
@@ -538,4 +544,12 @@ devcontainer upgrade --workspace-folder .
 ```sh
 bumble-hci-bridge android-netsim:name=bumble1 tcp-client:127.0.0.1:3456
 bumble-hci-bridge android-netsim:name=bumble2 tcp-client:127.0.0.1:3457
+```
+
+## adb
+
+[Connect to Chrome DevTools Protocol (CDP) of your Chrome on Android manually through Android Debug Bridge (adb)](https://developer.chrome.com/docs/devtools/remote-debugging#adb):
+
+```sh
+adb forward tcp:9222 localabstract:chrome_devtools_remote
 ```
