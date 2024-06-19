@@ -382,6 +382,9 @@ wget -nv -O "$APP_PATH/inkscape" 'https://inkscape.org/gallery/item/44616/Inksca
 wget -nv -O "$APP_PATH/nuclear" 'https://github.com/nukeop/nuclear/releases/download/v0.6.30/nuclear-v0.6.30.AppImage' \
 && chmod +x "$APP_PATH/nuclear"
 
+wget -nv -O "$APP_PATH/hotspot" 'https://github.com/KDAB/hotspot/releases/download/v1.5.1/hotspot-v1.5.1-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/hotspot"
+
 ################ VS Code / https://open-vsx.org/ ##############
 
 code-server --install-extension alefragnani.Bookmarks #https://github.com/alefragnani/vscode-bookmarks GPL-3

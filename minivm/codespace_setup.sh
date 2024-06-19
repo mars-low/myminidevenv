@@ -68,6 +68,7 @@ golang \
 gperf \
 gtk-sharp2 \
 gvncviewer \
+hdparm \
 htop \
 inxi \
 iperf \
@@ -120,6 +121,7 @@ libxapian30 \
 libxml2-dev \
 libxml2-utils \
 libxslt-dev \
+linux-perf \
 locales \
 ltrace \
 lzma \
