@@ -48,11 +48,13 @@ equivs \
 eslint \
 evtest \
 evtest \
+fakeroot \
 flatpak \
 flex \
 fluid-soundfont-gm \
 fluidsynth \
 fontconfig \
+g++ \
 gcc-aarch64-linux-gnu \
 gcc-arm-none-eabi \
 gcovr \
@@ -103,12 +105,14 @@ libisl-dev \
 libjaylink0 \
 libjim0.81 \
 libjsoncpp-dev \
+libkrb5-dev \
 libmpfr-dev \
 libncurses5 \
 libncurses5-dev \
 libncursesw5 \
 libnotify-dev \
 libprotobuf-c-dev \
+libsecret-1-dev \
 libslirp-dev \
 libssl-dev \
 libudev-dev \
@@ -118,6 +122,7 @@ libvirt-daemon-system \
 libvirt-dev \
 libx11-dev \
 libxapian30 \
+libxkbfile-dev \
 libxml2-dev \
 libxml2-utils \
 libxslt-dev \
@@ -159,6 +164,7 @@ policykit-1 \
 procps \
 protobuf-c-compiler \
 pulseaudio-utils \
+python-is-python3 \
 python3-pip \
 python3-proselint \
 python3-serial \
@@ -174,6 +180,7 @@ qt6-tools-dev \
 r-base \
 r-base-dev \
 rlwrap \
+rpm \
 rubocop \
 ruby-dev \
 ruby-libvirt \
