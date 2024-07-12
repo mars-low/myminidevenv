@@ -197,6 +197,7 @@ tcptrack \
 telnet \
 texinfo \
 tightvncserver \
+tio \
 traceroute \
 tshark \
 tzdata \
