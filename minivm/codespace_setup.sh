@@ -21,6 +21,8 @@ asciidoc \
 asciinema \
 bc \
 bison \
+bluez \
+bluez-test-tools \
 bmon \
 bubblewrap \
 build-essential \
@@ -48,12 +50,14 @@ equivs \
 eslint \
 evtest \
 evtest \
+f3 \
 fakeroot \
 flatpak \
 flex \
 fluid-soundfont-gm \
 fluidsynth \
 fontconfig \
+freerdp2-x11 \
 g++ \
 gcc-aarch64-linux-gnu \
 gcc-arm-none-eabi \
@@ -81,6 +85,7 @@ isc-dhcp-client \
 jack-tools \
 kconfig-frontends \
 lib32z1-dev \
+libasio-dev \
 libasound2 \
 libasound2-plugins \
 libc6-dev \
@@ -120,6 +125,7 @@ libusb-1.0-0-dev \
 libvirt-clients \
 libvirt-daemon-system \
 libvirt-dev \
+libwebkit2gtk-4.0-37 \
 libx11-dev \
 libxapian30 \
 libxkbfile-dev \
@@ -191,6 +197,7 @@ socat \
 sox \
 spell \
 srecord \
+sysfsutils \
 sysprof \
 tcpdump \
 tcptrack \
@@ -208,11 +215,13 @@ unzip \
 usbip \
 usbutils \
 v4l-utils \
+virt-manager \
 wildmidi \
 wireplumber \
 x11proto-core-dev \
 xfce4 \
 xfce4-goodies \
+xinput \
 xorg-dev \
 xpra \
 xsltproc \
@@ -227,7 +236,7 @@ zlib1g-dev \
 ################ DEB ################
 
 TEMP_DEB="$(mktemp)" \
-&& wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.89.0/code-server_4.89.0_amd64.deb' \
+&& wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.92.2-rc.1/code-server_4.92.2-rc.1_amd64.deb' \
 && sudo dpkg -i "$TEMP_DEB" \
 && rm -f "$TEMP_DEB"
 
