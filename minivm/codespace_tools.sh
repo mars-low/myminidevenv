@@ -19,11 +19,15 @@ go install mynewt.apache.org/newt/newt@latest
 
 ################ PIPX ################
 
+# PIPX_HOME=$UTILS_PATH/pipx PIPX_BIN_DIR=$UTILS_PATH/pipx/bin PIPX_MAN_DIR=$UTILS_PATH/pipx/man pipx install <package>
 export R2ENV_PATH=$UTILS_PATH/r2env
 
 export PIPX_HOME=$UTILS_PATH/pipx
 export PIPX_BIN_DIR=$PIPX_HOME/bin
 export PIPX_MAN_DIR=$PIPX_HOME/man
+
+#https://github.com/bulletmark/debugpy-run
+# pipx install yewtube
 
 pipx install gdbgui \
 && pipx install flawfinder \
@@ -36,6 +40,9 @@ pipx install gdbgui \
 && pipx install poetry \
 && pipx install bumble \
 && pipx install pyserial \
+&& pipx install debugpy-run \
+&& pipx install vsg \
+&& pipx install https://github.com/conan-io/conan.git \
 && pipx install git+https://github.com/randy3k/radian \
 && pipx install r2env \
 && r2env init \
@@ -463,6 +470,7 @@ code-server --install-extension ms-dotnettools.vscode-dotnet-runtime #https://gi
 code-server --install-extension ms-kubernetes-tools.vscode-kubernetes-tools #https://github.com/vscode-kubernetes-tools/vscode-kubernetes-tools Apache-2.0
 code-server --install-extension ms-playwright.playwright #https://github.com/microsoft/playwright Apache-2.0
 code-server --install-extension ms-pyright.pyright #https://github.com/microsoft/pyright MIT
+code-server --install-extension ms-python.debugpy #https://open-vsx.org/extension/ms-python/debugpy MIT
 code-server --install-extension ms-python.pylint #https://github.com/microsoft/vscode-pylint MIT
 code-server --install-extension ms-python.python #https://github.com/microsoft/vscode-python MIT
 code-server --install-extension ms-toolsai.jupyter #https://github.com/microsoft/vscode-jupyter MIT
@@ -572,8 +580,52 @@ min-free-space-size=500MB
 EOF
 
 HOME=$FLATPAK_HOME flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
 HOME=$FLATPAK_HOME flatpak install --user org.chromium.Chromium
 HOME=$FLATPAK_HOME flatpak install --user com.github.wwmm.easyeffects
+HOME=$FLATPAK_HOME flatpak install --user io.github.gtkwave.GTKWave
 
 HOME=$FLATPAK_HOME dbus-run-session -- flatpak run --user org.chromium.Chromium
 HOME=$FLATPAK_HOME flatpak run --user com.github.wwmm.easyeffects
+
+################ NODE ################
+
+npm install -g vcdrom
+
+################ PYTHON ################
+
+python3 -m pip install --upgrade siliconcompiler
+python3 -m pip install --upgrade cocotb
+python3 -m pip install --upgrade hdl-checker
+
+
+################ TODO ################
+
+# Verible
+wget https://github.com/chipsalliance/verible/releases/download/v0.0-3756-gda9a0f8c/verible-v0.0-3756-gda9a0f8c-linux-static-x86_64.tar.gz
+tar -xf verible-v0.0-3756-gda9a0f8c-linux-static-x86_64.tar.gz
+mv verible-v0.0-3756-gda9a0f8c/bin .
+
+# OSS-CAD
+wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-09-16/oss-cad-suite-linux-x64-20240916.tgz
+tar xzf oss-cad-suite-linux-x64-20240916.tgz
+mv oss-cad-suite/bin .
+
+cargo install --git https://github.com/vivekmalneedi/veridian.git --all-features
+
+wget https://github.com/dalance/svls/releases/download/v0.2.12/svls-v0.2.12-x86_64-lnx.zip
+unzip svls-v0.2.12-x86_64-lnx.zip
+mv svls bin
+
+git clone https://github.com/MikePopoloski/slang.git
+
+
+cargo install --git https://gitlab.com/surfer-project/surfer surfer
+
+
+git clone https://github.com/universal-ctags/ctags.git
+cd ctags
+./autogen.sh
+./configure
+make
+

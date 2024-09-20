@@ -64,6 +64,7 @@ gcc-arm-none-eabi \
 gcovr \
 gdb-multiarch \
 gettext \
+ghdl \
 gifsicle \
 git-core \
 git-lfs \
@@ -76,12 +77,14 @@ gtk-sharp2 \
 gvncviewer \
 hdparm \
 htop \
+ikaruss \
 inxi \
 iperf \
 iproute2 \
 iptables \
 iputils-ping \
 isc-dhcp-client \
+iverilog \
 jack-tools \
 kconfig-frontends \
 lib32z1-dev \
@@ -192,6 +195,7 @@ ruby-dev \
 ruby-libvirt \
 scons \
 screen \
+sg3-utils \
 slurm \
 socat \
 sox \
@@ -211,6 +215,7 @@ tzdata \
 u-boot-tools \
 uml-utilities \
 uncrustify \
+universal-ctags \
 unzip \
 usbip \
 usbutils \
