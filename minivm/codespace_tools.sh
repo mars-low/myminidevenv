@@ -62,6 +62,7 @@ dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-repl \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-suggest \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-script \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-counters \
+&& dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-t4 \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-trace \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  dotnet-ef \
 && dotnet tool install --tool-path ${DOTNET_TOOLS_LOCAL}  minicover \

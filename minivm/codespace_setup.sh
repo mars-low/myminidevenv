@@ -75,6 +75,7 @@ golang \
 gperf \
 gtk-sharp2 \
 gvncviewer \
+hackrf \
 hdparm \
 htop \
 ikaruss \
