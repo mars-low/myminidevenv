@@ -78,6 +78,7 @@ gvncviewer \
 hackrf \
 hdparm \
 htop \
+hw-probe \
 ikaruss \
 inxi \
 iperf \

@@ -40,6 +40,7 @@ pipx install gdbgui \
 && pipx install poetry \
 && pipx install bumble \
 && pipx install pyserial \
+&& pipx install ansible-dev-tools \
 && pipx install debugpy-run \
 && pipx install vsg \
 && pipx install https://github.com/conan-io/conan.git \
@@ -234,6 +235,13 @@ TEMP_TAR_GZ="$(mktemp)" \
 && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/zellij-org/zellij/releases/download/v0.39.2/zellij-x86_64-unknown-linux-musl.tar.gz' \
 && tar -zxf "$TEMP_TAR_GZ" -C "$BIN_PATH" \
 && rm "$TEMP_TAR_GZ"
+
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tuna-f1sh/cyme/releases/download/v1.8.4/cyme-v1.8.4-x86_64-unknown-linux-gnu.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& mv "${TEMP_DIR}/cyme-v1.8.4-x86_64-unknown-linux-gnu/cyme" "$BIN_PATH" \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
 TEMP_TAR_GZ="$(mktemp)" \
 TEMP_DIR="$(mktemp -d)" \
