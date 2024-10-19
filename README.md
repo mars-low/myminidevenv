@@ -310,11 +310,24 @@ vncserver # set password
 Connnect to VNC server from the host:
 
 ```sh
+chromium --app="http://127.0.0.1:5902/vnc.html?host=127.0.0.1&port=5902" --enable-features=UseOzonePlatform --ozone-platform=wayland
+```
+
+or
+
+```sh
 firefox --kiosk http://127.0.0.1:5902/vnc.html?host=127.0.0.1&port=5902
 ```
 
 For the best experience, in Firefox configure session restore.
 Pick an option _Startup->Open previous windows and tabs_.
+
+Kiosk mode may not be optimal for dual screen setup, as it tends to fullscreen to a single display.
+
+As an alternative, set _full-screen-api.ignore-widgets_ to true in _about:config_
+and resize window manually to span two screens (Firefox only).
+
+For the best experience [Disable fullscr-toggler in Firefox](https://stackoverflow.com/questions/35836338/firefox-browser-settings-to-avoid-appearance-of-menu-bar-or-task-bar-in-full-scr/35836449#35836449).
 
 Use [Hide Top Bar extension for GNOME Shell](https://extensions.gnome.org/extension/545/hide-top-bar/).
 Download extension from a linked page and install from the command line:
