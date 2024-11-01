@@ -245,6 +245,13 @@ TEMP_DIR="$(mktemp -d)" \
 
 TEMP_TAR_GZ="$(mktemp)" \
 TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tummychow/git-absorb/releases/download/0.6.15/git-absorb-0.6.15-x86_64-unknown-linux-musl.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& mv "${TEMP_DIR}/git-absorb-0.6.15-x86_64-unknown-linux-musl/git-absorb" "$BIN_PATH" \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
 && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/chmln/sd/releases/download/v1.0.0/sd-v1.0.0-x86_64-unknown-linux-musl.tar.gz' \
 && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
 && mv "${TEMP_DIR}/sd-v1.0.0-x86_64-unknown-linux-musl/sd" "$BIN_PATH" \

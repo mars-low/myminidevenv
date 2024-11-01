@@ -28,6 +28,7 @@ bubblewrap \
 build-essential \
 bwm-ng \
 ca-certificates \
+cabextract \
 clang \
 clang-tidy \
 config-package-dev \
@@ -122,6 +123,7 @@ libncurses5-dev \
 libncursesw5 \
 libnotify-dev \
 libprotobuf-c-dev \
+librsvg2-bin \
 libsecret-1-dev \
 libslirp-dev \
 libssl-dev \
@@ -203,12 +205,14 @@ socat \
 sox \
 spell \
 srecord \
+stress \
 sysfsutils \
 sysprof \
 tcpdump \
 tcptrack \
 telnet \
 texinfo \
+texlive \
 tightvncserver \
 tio \
 traceroute \
