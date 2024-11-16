@@ -15,11 +15,13 @@ adb \
 alsa-oss \
 alsa-utils \
 alsamixergui \
+apache2-utils \
 apparmor \
 apulse \
 asciidoc \
 asciinema \
 bc \
+bird \
 bison \
 bluez \
 bluez-test-tools \
@@ -42,6 +44,7 @@ device-tree-compiler \
 devscripts \
 devscripts \
 dfu-util \
+dhcping \
 dnsmasq \
 dnsmasq-base \
 doxygen \
@@ -58,6 +61,7 @@ flex \
 fluid-soundfont-gm \
 fluidsynth \
 fontconfig \
+fping \
 freerdp2-x11 \
 g++ \
 gcc-aarch64-linux-gnu \
@@ -80,12 +84,17 @@ hackrf \
 hdparm \
 htop \
 hw-probe \
+iftop \
 ikaruss \
 inxi \
 iperf \
+iperf3 \
 iproute2 \
+ipset \
 iptables \
+iptraf-ng \
 iputils-ping \
+ipvsadm \
 isc-dhcp-client \
 iverilog \
 jack-tools \
@@ -141,6 +150,7 @@ libxml2-utils \
 libxslt-dev \
 linux-perf \
 locales \
+lshw \
 ltrace \
 lzma \
 m4 \
@@ -151,6 +161,7 @@ mosquitto \
 mosquitto-clients \
 mpv \
 mtools \
+mtr \
 ncurses-dev \
 neofetch \
 net-tools \
@@ -158,6 +169,7 @@ netcat-openbsd \
 nethogs \
 network-manager \
 nftables \
+ngrep \
 ninja-build \
 nmap \
 novnc \
@@ -227,6 +239,7 @@ usbip \
 usbutils \
 v4l-utils \
 virt-manager \
+whiptail \
 wildmidi \
 wireplumber \
 x11proto-core-dev \
