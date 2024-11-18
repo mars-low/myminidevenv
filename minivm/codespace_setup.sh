@@ -20,6 +20,7 @@ apparmor \
 apulse \
 asciidoc \
 asciinema \
+bats \
 bc \
 bird \
 bison \
@@ -105,6 +106,7 @@ libasound2 \
 libasound2-plugins \
 libc6-dev \
 libc6-dev-i386 \
+libconfig-dev \
 libdrumstick-dev \
 libelf-dev \
 libevent-dev \
@@ -136,6 +138,7 @@ librsvg2-bin \
 libsecret-1-dev \
 libslirp-dev \
 libssl-dev \
+libsystemd-dev \
 libudev-dev \
 libusb-1.0-0-dev \
 libvirt-clients \
@@ -161,6 +164,7 @@ mosquitto \
 mosquitto-clients \
 mpv \
 mtools \
+mtp-tools \
 mtr \
 ncurses-dev \
 neofetch \
