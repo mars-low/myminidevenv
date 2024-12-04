@@ -4,7 +4,7 @@ Start from the clean debian-12 install (https://www.debian.org/download).
 Add the user to sudoers group by editing _/etc/sudoers_ file:
 
 ```sh
-su root 
+su root
 sudo nano /etc/sudoers
 ```
 
@@ -141,9 +141,9 @@ On host find an unmounted partition using `lsblk` command:
 ```sh
 $ lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
-sda           8:0    0 931.5G  0 disk 
-└─sda1        8:1    0 931.5G  0 part 
-nvme0n1     259:0    0 232.9G  0 disk 
+sda           8:0    0 931.5G  0 disk
+└─sda1        8:1    0 931.5G  0 part
+nvme0n1     259:0    0 232.9G  0 disk
 ├─nvme0n1p1 259:1    0   512M  0 part /boot/efi
 ├─nvme0n1p2 259:2    0 231.4G  0 part /
 └─nvme0n1p3 259:3    0   977M  0 part [SWAP
@@ -156,7 +156,7 @@ virsh -c qemu:///system attach-disk debian-12 /dev/sda1 vdc
 ```
 
 Command above mounts `/dev/sda1` as `vdc`, but it shows up as `/dev/vdb` inside VM (not sure why).
-Therefore you use `/dev/vdb` as a hint to `mount` command after logging to VM 
+Therefore you use `/dev/vdb` as a hint to `mount` command after logging to VM
 (`ssh -F $( vl ssh_config > .ssh_config | echo .ssh_config) debian-12`):
 
 ```sh
@@ -222,7 +222,7 @@ sudo passwd $USER # interactive, set password for ssh access
 ```
 
 Now install all **system** packages from apt, or built from source.
-take a look at [codespace_setup.sh](https://gist.github.com/mars-low/4100771a7514d52dc811cce23f088167#file-codespace-setup-sh)
+Take a look at [codespace_setup.sh](https://gist.github.com/mars-low/4100771a7514d52dc811cce23f088167#file-codespace-setup-sh).
 
 Add user to groups:
 
