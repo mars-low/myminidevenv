@@ -247,6 +247,7 @@ whiptail \
 wildmidi \
 wireplumber \
 x11proto-core-dev \
+xclip \
 xfce4 \
 xfce4-goodies \
 xinput \
