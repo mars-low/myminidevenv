@@ -296,6 +296,17 @@ SSH connection between libvirt host and VM guest listed above must be still acti
 ssh antcon -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5000:127.0.0.1:5000 -L 5001:127.0.0.1:5001 -L 5038:127.0.0.1:5038 -L 8443:127.0.0.1:8443 -L 7173:127.0.0.1:7173 -L 5013:127.0.0.1:5013 -L 9222:127.0.0.1:9222 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3243:127.0.0.1:3243 -R 27185:127.0.0.1:27185 -R 4657:127.0.0.1:4657 -o EnableEscapeCommandline=yes
 ```
 
+# Linux kernel tweaks
+
+Tweak some kernel settings according to your preference:
+
+```sh
+sudo sysctl -w fs.inotify.max_user_instances=524288
+sudo sysctl -w fs.inotify.max_user_watches=5242880
+sudo sysctl -w kernel.perf_event_paranoid=-1
+sudo sysctl -p
+```
+
 # Usage
 
 ```sh
