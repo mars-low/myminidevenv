@@ -396,7 +396,7 @@ wget -nv -O "$APP_PATH/freecad" 'https://github.com/FreeCAD/FreeCAD/releases/dow
 wget -nv -O "$APP_PATH/krita" 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' \
 && chmod +x "$APP_PATH/krita"
 
-wget -nv -O "$APP_PATH/imhex" 'https://github.com/WerWolv/ImHex/releases/download/v1.32.1/imhex-1.32.1-x86_64.AppImage' \
+wget -nv -O "$APP_PATH/imhex" 'https://github.com/WerWolv/ImHex/releases/download/v1.36.2/imhex-1.36.2-x86_64.AppImage' \
 && chmod +x "$APP_PATH/imhex"
 
 wget -nv -O "$APP_PATH/inkscape" 'https://inkscape.org/gallery/item/44616/Inkscape-091e20e-x86_64.AppImage' \
@@ -644,4 +644,3 @@ cd ctags
 ./autogen.sh
 ./configure
 make
-

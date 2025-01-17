@@ -17,6 +17,7 @@ alsa-utils \
 alsamixergui \
 apache2-utils \
 apparmor \
+aptitude \
 apulse \
 asciidoc \
 asciinema \
@@ -33,6 +34,7 @@ bwm-ng \
 ca-certificates \
 cabextract \
 clang \
+clang-format \
 clang-tidy \
 config-package-dev \
 cpio \
