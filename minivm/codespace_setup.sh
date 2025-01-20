@@ -89,7 +89,6 @@ hdparm \
 htop \
 hw-probe \
 iftop \
-ikaruss \
 inxi \
 iperf \
 iperf3 \
@@ -285,7 +284,7 @@ zlib1g-dev \
 ################ DEB ################
 
 TEMP_DEB="$(mktemp)" \
-&& wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.92.2-rc.1/code-server_4.92.2-rc.1_amd64.deb' \
+&& wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.96.2/code-server_4.96.2_amd64.deb' \
 && sudo dpkg -i "$TEMP_DEB" \
 && rm -f "$TEMP_DEB"
 
@@ -298,9 +297,9 @@ TEMP_DEB="$(mktemp)" \
 
 TEMP_TAR_GZ="$(mktemp)" \
 TEMP_DIR="$(mktemp -d)" \
-&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz' \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz' \
 && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
-&& cd "${TEMP_DIR}/tmux-3.4" \
+&& cd "${TEMP_DIR}/tmux-3.5a" \
 && ./configure \
 && make \
 && sudo make install \
