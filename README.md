@@ -194,6 +194,7 @@ Create and start container:
 sudo podman run -ti -d \
 --name "dev_codespace" \
 --cap-add=all \
+--shm-size=8gb \
 --net=host --security-opt seccomp=unconfined \
 --privileged --init \
 --user codespace \
