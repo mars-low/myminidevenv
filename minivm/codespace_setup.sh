@@ -138,6 +138,7 @@ libjaylink0 \
 libjim0.81 \
 libjsoncpp-dev \
 libkrb5-dev \
+liblua5.3-dev \
 libmpfr-dev \
 libncurses5 \
 libncurses5-dev \
@@ -163,6 +164,7 @@ libvirt-clients \
 libvirt-daemon-system \
 libvirt-dev \
 libwebkit2gtk-4.0-37 \
+libwnck-3-dev \
 libx11-dev \
 libxapian30 \
 libxkbfile-dev \
