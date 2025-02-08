@@ -1,0 +1,48 @@
+name: Zephyr
+
+on:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+  build-samples:
+    runs-on: ubuntu-latest
+    container: ghcr.io/zephyrproject-rtos/ci:main
+    steps:
+      - name: west init
+        run: |
+          west init /workdir
+          cd /workdir
+          west update
+      - name: west build
+        working-directory: /workdir/zephyr
+        # samples/subsys/usb/uac2_explicit_feedback doesn't support nrf52840dk/nrf52840 and fails during a compilation
+        # west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_uac2_explicit_feedback samples/subsys/usb/uac2_explicit_feedback
+        # west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_uac2_implicit_feedback samples/subsys/usb/uac2_implicit_feedback
+        # https://docs.zephyrproject.org/latest/connectivity/usb/device_next/usb_device.html
+        # west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_hid-mouse_next samples/subsys/usb/hid-mouse -- -DCONF_FILE=usbd_next_prj.conf
+        run: |
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_webusb samples/subsys/usb/webusb
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_cdc_acm samples/subsys/usb/cdc_acm
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_audio_headphones_microphone samples/subsys/usb/audio/headphones_microphone
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_audio_headset samples/subsys/usb/audio/headset
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_dfu samples/subsys/usb/dfu
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_hid-mouse samples/subsys/usb/hid-mouse
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_hid-keyboard samples/subsys/usb/hid-keyboard
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_shell samples/subsys/usb/shell
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_testusb samples/subsys/usb/testusb
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_console samples/subsys/usb/console
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_mass samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_bluetooth_hci_usb samples/bluetooth/hci_usb
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_net_zperf samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-netusb.conf
+
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_cdc_acm_next samples/subsys/usb/cdc_acm -- -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_console_next samples/subsys/usb/console -- -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_usb_mass_next samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_bluetooth_hci_usb_next samples/bluetooth/hci_usb -- -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 -d build_nrf_net_zperf_next samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-usbd_next_ecm.conf -DDTC_OVERLAY_FILE=usbd_next_ecm.overlay -DCONFIG_USBD_SHELL=y
+      - name: Archive binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrf_usb_webusb
+          path: /workdir/zephyr/build_nrf_usb_webusb/zephyr/zephyr.elf
