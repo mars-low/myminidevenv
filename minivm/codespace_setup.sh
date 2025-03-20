@@ -33,6 +33,7 @@ build-essential \
 bwm-ng \
 ca-certificates \
 cabextract \
+ccache \
 clang \
 clang-format \
 clang-tidy \
@@ -60,6 +61,7 @@ evtest \
 evtest \
 f3 \
 fakeroot \
+firefox-esr \
 flatpak \
 flex \
 fluid-soundfont-gm \

@@ -578,3 +578,52 @@ bumble-hci-bridge android-netsim:name=bumble2 tcp-client:127.0.0.1:3457
 ```sh
 adb forward tcp:9222 localabstract:chrome_devtools_remote
 ```
+
+## [Chromium DevTools](https://chromium.googlesource.com/devtools/devtools-frontend/+/refs/heads/main/docs/README.md)
+
+[Setup depot_tools](https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up):
+
+```sh
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+export PATH=$PWD/depot_tools:$PATH
+```
+
+[Build DevTools](https://chromium.googlesource.com/devtools/devtools-frontend/+/refs/heads/main/docs/get_the_code.md):
+
+```sh
+mkdir devtools
+cd devtools
+fetch devtools-frontend
+cd devtools-frontend
+gclient sync
+gn gen out/Default
+autoninja -C out/Default
+```
+
+[Run in hosted mode](https://chromium.googlesource.com/devtools/devtools-frontend/+/refs/heads/main/docs/get_the_code.md#running-in-hosted-mode) to access DevTools on a different device (e.g. Android phone).
+
+Serve files from `devtools/devtools-frontend/out/Default/gen/front_end` built above:
+
+```sh
+cd out/Default/gen/front_end
+python3 -m http.server 8000
+```
+
+Run `chromium` instance on a server (make sure you start with some initial webpage):
+
+```sh
+chromium --headless --disable-infobars --remote-debugging-port=9222 --remote-allow-origins="*" https://chromium.googlesource.com/devtools/devtools-frontend/+/main/docs/get_the_code.md
+```
+
+Get DevTools frontend URL:
+
+```sh
+$ curl http://localhost:9222/json -s | grep '\(devtoolsFrontendUrl\)'
+   "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:9222/devtools/page/9FA3B794E47E2D489EEB998E52703089",
+```
+
+Go to the following page to access DevTools for remote chromium instance:
+
+```sh
+http://localhost:8000/inspector.html?ws=localhost:9222/devtools/page/9FA3B794E47E2D489EEB998E52703089
+```
