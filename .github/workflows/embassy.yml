@@ -1,0 +1,34 @@
+name: Embassy
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Build embassy examples
+        run: |
+          git clone --recurse-submodules https://github.com/embassy-rs/embassy.git
+          cd embassy/examples/nrf52840
+          cargo build --bin usb_ethernet
+          cargo build --bin usb_serial
+          cargo build --bin usb_hid_keyboard
+          cargo build --bin usb_hid_mouse
+          cargo build --bin usb_serial_winusb
+          cargo build --bin usb_serial_multitask
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binaries
+          path: |
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_ethernet
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_keyboard
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_mouse
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_multitask
+            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_winusb
