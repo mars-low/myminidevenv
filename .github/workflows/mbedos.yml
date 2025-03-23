@@ -1,0 +1,56 @@
+name: MbedOS
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/armmbed/mbed-os-env
+    steps:
+    
+      - name: Build Mbed OS examples
+        run: |
+          mkdir -p /var/mbed
+          cd /var/mbed
+          mbed import https://github.com/ARMmbed/mbed-os/#9a8c9e2c297f64c805698d72cd541ff3cd7fe538
+          mbed config -G MBED_OS_DIR $PWD/mbed-os
+          mbed new .
+          pip install markupsafe==2.0.1
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMIDI_Take_Me_Out.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBSerial.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBHID.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBCDC.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMIDI.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBCDC_ECM.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBKeyboard.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMouseKeyboard.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMouse_joystick.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBAudio_play_sound.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBAudio_square_wave.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMouse_relative_pos.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMouse_absolute_pos.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBMSD_HeapBlockDevice.git
+          git clone https://github.com/ARMmbed/mbed-os-snippet-USBAudio_loopback_example.git
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBAudio_loopback_example --build BUILD-NRF52840_DK/mbed-os-snippet-USBAudio_loopback_example
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBAudio_play_sound --build BUILD-NRF52840_DK/mbed-os-snippet-USBAudio_play_sound
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBAudio_square_wave --build BUILD-NRF52840_DK/mbed-os-snippet-USBAudio_square_wave
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBCDC --build BUILD-NRF52840_DK/mbed-os-snippet-USBCDC
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBCDC_ECM --build BUILD-NRF52840_DK/mbed-os-snippet-USBCDC_ECM
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBHID --build BUILD-NRF52840_DK/mbed-os-snippet-USBHID
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBKeyboard --build BUILD-NRF52840_DK/mbed-os-snippet-USBKeyboard
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMIDI --build BUILD-NRF52840_DK/mbed-os-snippet-USBMIDI
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMIDI_Take_Me_Out --build BUILD-NRF52840_DK/mbed-os-snippet-USBMIDI_Take_Me_Out
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMouse_absolute_pos --build BUILD-NRF52840_DK/mbed-os-snippet-USBMouse_absolute_pos
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMouse_joystick --build BUILD-NRF52840_DK/mbed-os-snippet-USBMouse_joystick
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMouse_relative_pos --build BUILD-NRF52840_DK/mbed-os-snippet-USBMouse_relative_pos
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMouseKeyboard --build BUILD-NRF52840_DK/mbed-os-snippet-USBMouseKeyboard
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBMSD_HeapBlockDevice --build BUILD-NRF52840_DK/mbed-os-snippet-USBMSD_HeapBlockDevice
+          mbed compile -m NRF52840_DK -t GCC_ARM --source mbed-os --source mbed-os-snippet-USBSerial --build BUILD-NRF52840_DK/mbed-os-snippet-USBSerial
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binaries
+          path: |
+            /var/mbed/BUILD-NRF52840_DK/*/mbed-os.elf
