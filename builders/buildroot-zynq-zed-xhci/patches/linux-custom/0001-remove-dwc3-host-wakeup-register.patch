@@ -1,6 +1,6 @@
---- linux-custom/drivers/usb/host/xhci-plat.c	2025-03-23 14:53:51.553868108 +0100
-+++ linux-custom/drivers/usb/host/xhci-plat.c	2025-03-23 14:54:26.454813490 +0100
-@@ -329,7 +329,6 @@ static int xhci_plat_probe(struct platfo
+--- linux-custom/drivers/usb/host/xhci-plat.c	2025-01-29 10:07:26.000000000 +0100
++++ linux-custom/drivers/usb/host/xhci-plat.c	2025-03-27 21:08:36.906788346 +0100
+@@ -278,7 +278,6 @@ int xhci_plat_probe(struct platform_devi
  	}
  
  	device_set_wakeup_capable(&pdev->dev, true);

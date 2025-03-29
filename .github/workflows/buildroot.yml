@@ -21,12 +21,13 @@ jobs:
           make BR2_EXTERNAL=../builders/buildroot-zynq-zed-xhci defconfig BR2_DEFCONFIG=../builders/buildroot-zynq-zed-xhci/configs/zynq-zed-xhci_defconfig O=../output-buildroot-zynq-zed-xhci
           cd ../output-buildroot-zynq-zed-xhci
           make -j $(nproc)
+          gzip -k --force images/rootfs.ext2
 
       - uses: actions/upload-artifact@v4
         with:
           name: images
           path: |
-            output-buildroot-zynq-zed-xhci/images/vmlinux
+            output-buildroot-zynq-zed-xhci/build/linux-custom/vmlinux
             output-buildroot-zynq-zed-xhci/images/rootfs.ext2.gz
             output-buildroot-zynq-zed-xhci/images/zynq-zed-xhci.dtb
             buildroot/dl/linux/xlnx_rebase_*.tar.gz
