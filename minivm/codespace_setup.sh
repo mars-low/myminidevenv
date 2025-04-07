@@ -27,6 +27,7 @@ bird \
 bison \
 bluez \
 bluez-test-tools \
+bmake \
 bmon \
 bubblewrap \
 build-essential \
@@ -67,6 +68,7 @@ flex \
 fluid-soundfont-gm \
 fluidsynth \
 fontconfig \
+fontmake \
 fping \
 freerdp2-x11 \
 g++ \
@@ -105,6 +107,7 @@ iverilog \
 jack-tools \
 kconfig-frontends \
 lib32z1-dev \
+libarchive-dev \
 libasio-dev \
 libasound2 \
 libasound2-plugins \
@@ -140,6 +143,7 @@ libjaylink0 \
 libjim0.81 \
 libjsoncpp-dev \
 libkrb5-dev \
+liblttng-ust-dev \
 liblua5.3-dev \
 libmpfr-dev \
 libncurses5 \
@@ -174,6 +178,7 @@ libxml2-dev \
 libxml2-utils \
 libxslt-dev \
 linux-perf \
+lld-14 \
 locales \
 lshw \
 ltrace \
@@ -252,6 +257,7 @@ telnet \
 texinfo \
 texlive \
 tightvncserver \
+time \
 tio \
 traceroute \
 tshark \
