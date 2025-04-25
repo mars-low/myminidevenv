@@ -74,6 +74,7 @@ freerdp2-x11 \
 g++ \
 gcc-aarch64-linux-gnu \
 gcc-arm-none-eabi \
+gcc-riscv64-unknown-elf \
 gcovr \
 gdb-multiarch \
 gettext \
@@ -92,6 +93,7 @@ hackrf \
 hdparm \
 htop \
 hw-probe \
+icdiff \
 iftop \
 inxi \
 iperf \
@@ -111,6 +113,7 @@ libarchive-dev \
 libasio-dev \
 libasound2 \
 libasound2-plugins \
+libboost-all-dev \
 libbpf-dev \
 libc6-dev \
 libc6-dev-i386 \
@@ -145,6 +148,7 @@ libjsoncpp-dev \
 libkrb5-dev \
 liblttng-ust-dev \
 liblua5.3-dev \
+libmpc-dev \
 libmpfr-dev \
 libncurses5 \
 libncurses5-dev \
@@ -225,6 +229,7 @@ python3-pip \
 python3-proselint \
 python3-serial \
 python3-sphinx \
+python3-tomli \
 qemu-kvm \
 qemu-system-common \
 qemu-utils \
