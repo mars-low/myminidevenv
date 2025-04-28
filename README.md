@@ -114,6 +114,12 @@ vl ansible_inventory > inventory
 ansible-playbook -i inventory playbook.yml
 ```
 
+Append parameters for SSH connection to `~/.ssh/config` file:
+
+```sh
+vl ssh_config >> ~/.ssh/config
+```
+
 Log to VM using ssh:
 
 ```sh
@@ -288,6 +294,14 @@ Connect with ssh from the host to the container with _debian-12_ VM as a jump se
 
 ```sh
 sh -A -F $( vl ssh_config > .ssh_config | echo .ssh_config) codespace@localhost -p 2222 -J debian-12 -L 3000:127.0.0.1:3000 -L 3389:127.0.0.1:3389 -L 5902:127.0.0.1:5902 -L 8080:127.0.0.1:8080 -L 8085:127.0.0.1:8085 -L 5038:127.0.0.1:5037 -L 7173:127.0.0.1:7173 -L 8443:127.0.0.1:8443 -L 5013:127.0.0.1:5013 -L 9222:127.0.0.1:9222 -R 27183:127.0.0.1:27183 -R 27184:127.0.0.1:27184 -R 3240:127.0.0.1:3240 -R 3241:127.0.0.1:3241 -R 3242:127.0.0.1:3242 -R 3243:127.0.0.1:3243 -R 4656:127.0.0.1:4656 -R 4657:127.0.0.1:4657 -o EnableEscapeCommandline=yes
+```
+
+Alternatively use file based SSH configuration from `minivm/ssh_config`. It includes base config located in `~/.ssh/config`.
+It assumes the default configuration for `debina-12` VM is located in that base file.
+If you hadn't done it before, issue `vl ssh_config >> ~/.ssh/config` to generate config before running the command below:
+
+```sh
+ssh -F ssh_config debian-12-container
 ```
 
 Given that host itself runs ssh server and you can connect to it with `ssh antcon`, you can further redirect ports.
