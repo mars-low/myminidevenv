@@ -392,6 +392,12 @@ sudo swapon /swapfile
 sudo swapon --show
 ```
 
+## [Intel NIC e1000e hardware unit hang](https://forum.proxmox.com/threads/intel-nic-e1000e-hardware-unit-hang.106001/post-458363)
+
+```sh
+sudo ethtool -K eno1 gso off gro off tso off tx off rx off rxvlan off txvlan off
+```
+
 ## clangd
 
 ### tlib
