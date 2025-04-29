@@ -95,6 +95,7 @@ htop \
 hw-probe \
 icdiff \
 iftop \
+indent \
 inxi \
 iperf \
 iperf3 \
@@ -108,6 +109,7 @@ isc-dhcp-client \
 iverilog \
 jack-tools \
 kconfig-frontends \
+keyutils \
 lib32z1-dev \
 libaio-dev \
 libarchive-dev \
@@ -119,11 +121,13 @@ libbpf-dev \
 libbrlapi-dev \
 libc6-dev \
 libc6-dev-i386 \
+libcacard-dev \
 libcap-ng-dev \
 libcbor-dev \
 libconfig-dev \
 libdaxctl-dev \
 libdrumstick-dev \
+libdw-dev \
 libelf-dev \
 libevent-dev \
 libfdt-dev \
@@ -141,6 +145,7 @@ libgtk-3-bin \
 libgtk-3-dev \
 libgtk2.0-0 \
 libguestfs-tools \
+libgvnc-1.0-dev \
 libhidapi-hidraw0 \
 libhidapi-libusb0 \
 libiberty-dev \
@@ -149,11 +154,12 @@ libisl-dev \
 libjaylink0 \
 libjim0.81 \
 libjsoncpp-dev \
+libkeyutils-dev \
 libkrb5-dev \
 liblttng-ust-dev \
+liblua5.3-dev \
 liblzf-dev \
 liblzo2-dev \
-liblua5.3-dev \
 libmpc-dev \
 libmpfr-dev \
 libncurses5 \
@@ -162,6 +168,7 @@ libncursesw5 \
 libnfs-dev \
 libnotify-dev \
 libpci-dev \
+libpmem-dev \
 libpmem2-dev \
 libprotobuf-c-dev \
 libpulse-dev \
@@ -172,8 +179,11 @@ libseccomp-dev \
 libsecret-1-dev \
 libslirp-dev \
 libsnappy-dev \
+libspice-protocol-dev \
+libspice-server-dev \
 libssh-dev \
 libssl-dev \
+libsysprof-4-dev \
 libsystemd-dev \
 libu2f-host-dev \
 libu2f-server-dev \
@@ -215,6 +225,7 @@ neofetch \
 net-tools \
 netcat-openbsd \
 nethogs \
+nettle-bin \
 network-manager \
 nftables \
 ngrep \
@@ -286,6 +297,8 @@ traceroute \
 tshark \
 tzdata \
 u-boot-tools \
+u2f-host \
+u2f-server \
 uml-utilities \
 uncrustify \
 universal-ctags \
