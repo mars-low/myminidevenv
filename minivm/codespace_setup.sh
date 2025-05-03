@@ -175,6 +175,7 @@ libpulse-dev \
 librbd-dev \
 librsvg2-bin \
 libsasl2-dev \
+libsdl2-dev \
 libseccomp-dev \
 libsecret-1-dev \
 libslirp-dev \
@@ -238,6 +239,7 @@ packaging-dev \
 pandoc \
 patchelf \
 picocom \
+pipewire \
 pipewire-audio \
 pipewire-audio-client-libraries \
 pipewire-libcamera \
