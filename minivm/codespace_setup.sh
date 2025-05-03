@@ -70,6 +70,7 @@ fluidsynth \
 fontconfig \
 fontmake \
 fping \
+freerdp2-dev \
 freerdp2-x11 \
 g++ \
 gcc-aarch64-linux-gnu \
@@ -117,12 +118,16 @@ libarchive-dev \
 libasio-dev \
 libasound2 \
 libasound2-plugins \
+libavcodec-dev \
+libavformat-dev \
+libavutil-dev \
 libboost-all-dev \
 libbpf-dev \
 libbrlapi-dev \
 libc6-dev \
 libc6-dev-i386 \
 libcacard-dev \
+libcairo2-dev \
 libcap-ng-dev \
 libcbor-dev \
 libconfig-dev \
@@ -154,6 +159,7 @@ libiscsi-dev \
 libisl-dev \
 libjaylink0 \
 libjim0.81 \
+libjpeg62-turbo-dev \
 libjsoncpp-dev \
 libkeyutils-dev \
 libkrb5-dev \
@@ -168,10 +174,13 @@ libncurses5-dev \
 libncursesw5 \
 libnfs-dev \
 libnotify-dev \
+libpango1.0-dev \
 libpci-dev \
 libpmem-dev \
 libpmem2-dev \
+libpng-dev \
 libprotobuf-c-dev \
+libpulse-dev \
 libpulse-dev \
 librbd-dev \
 librsvg2-bin \
@@ -184,9 +193,14 @@ libsnappy-dev \
 libspice-protocol-dev \
 libspice-server-dev \
 libssh-dev \
+libssh2-1-dev \
 libssl-dev \
+libssl-dev \
+libswscale-dev \
 libsysprof-4-dev \
 libsystemd-dev \
+libtelnet-dev \
+libtool-bin \
 libu2f-host-dev \
 libu2f-server-dev \
 libudev-dev \
@@ -198,7 +212,11 @@ libvirglrenderer-dev \
 libvirt-clients \
 libvirt-daemon-system \
 libvirt-dev \
+libvncserver-dev \
+libvorbis-dev \
 libwebkit2gtk-4.0-37 \
+libwebp-dev \
+libwebsockets-dev \
 libwnck-3-dev \
 libx11-dev \
 libxapian30 \
@@ -289,6 +307,7 @@ srecord \
 stress \
 sysfsutils \
 sysprof \
+tasksel \
 tcpdump \
 tcptrack \
 telnet \
@@ -310,6 +329,7 @@ unzip \
 usbip \
 usbredirect \
 usbutils \
+uuid-dev \
 v4l-utils \
 virgl-server \
 virt-manager \
@@ -325,6 +345,7 @@ xfce4-goodies \
 xinput \
 xorg-dev \
 xpra \
+xrdp \
 xsltproc \
 xterm \
 xutils-dev \
