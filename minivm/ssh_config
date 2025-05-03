@@ -6,6 +6,7 @@ Host debian-12-container
      Port 2222
      ProxyJump debian-12
      ForwardAgent yes
+
      LocalForward 3000 127.0.0.1:3000
      LocalForward 3389 127.0.0.1:3389
      LocalForward 4173 127.0.0.1:4173
@@ -19,7 +20,59 @@ Host debian-12-container
      LocalForward 8085 127.0.0.1:8085
      LocalForward 8443 127.0.0.1:8443
      LocalForward 9222 127.0.0.1:9222
+     LocalForward 15550 127.0.0.1:15550
+     LocalForward 15550 127.0.0.1:15550
+     LocalForward 15551 127.0.0.1:15551
+     LocalForward 15552 127.0.0.1:15552
+     LocalForward 15553 127.0.0.1:15553
+     LocalForward 15554 127.0.0.1:15554
+     LocalForward 15555 127.0.0.1:15555
+     LocalForward 15556 127.0.0.1:15556
+     LocalForward 15557 127.0.0.1:15557
+     LocalForward 15558 127.0.0.1:15558
+     LocalForward 15559 127.0.0.1:15559
+     LocalForward 15560 127.0.0.1:15560
+     LocalForward 15561 127.0.0.1:15561
+     LocalForward 15562 127.0.0.1:15562
+     LocalForward 15563 127.0.0.1:15563
+     LocalForward 15564 127.0.0.1:15564
+     LocalForward 15565 127.0.0.1:15565
+     LocalForward 15566 127.0.0.1:15566
+     LocalForward 15567 127.0.0.1:15567
+     LocalForward 15568 127.0.0.1:15568
+     LocalForward 15569 127.0.0.1:15569
+     LocalForward 15570 127.0.0.1:15570
+     LocalForward 15571 127.0.0.1:15571
+     LocalForward 15572 127.0.0.1:15572
+     LocalForward 15573 127.0.0.1:15573
+     LocalForward 15574 127.0.0.1:15574
+     LocalForward 15575 127.0.0.1:15575
+     LocalForward 15576 127.0.0.1:15576
+     LocalForward 15577 127.0.0.1:15577
+     LocalForward 15578 127.0.0.1:15578
+     LocalForward 15579 127.0.0.1:15579
+     LocalForward 15580 127.0.0.1:15580
+     LocalForward 15581 127.0.0.1:15581
+     LocalForward 15582 127.0.0.1:15582
+     LocalForward 15583 127.0.0.1:15583
+     LocalForward 15584 127.0.0.1:15584
+     LocalForward 15585 127.0.0.1:15585
+     LocalForward 15586 127.0.0.1:15586
+     LocalForward 15587 127.0.0.1:15587
+     LocalForward 15588 127.0.0.1:15588
+     LocalForward 15589 127.0.0.1:15589
+     LocalForward 15590 127.0.0.1:15590
+     LocalForward 15591 127.0.0.1:15591
+     LocalForward 15592 127.0.0.1:15592
+     LocalForward 15593 127.0.0.1:15593
+     LocalForward 15594 127.0.0.1:15594
+     LocalForward 15595 127.0.0.1:15595
+     LocalForward 15596 127.0.0.1:15596
+     LocalForward 15597 127.0.0.1:15597
+     LocalForward 15598 127.0.0.1:15598
+     LocalForward 15599 127.0.0.1:15599
      LocalForward 21234 127.0.0.1:21234
+
      RemoteForward 3240 127.0.0.1:3240
      RemoteForward 3241 127.0.0.1:3241
      RemoteForward 3242 127.0.0.1:3242
