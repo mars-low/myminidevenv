@@ -84,6 +84,7 @@ git-core \
 git-lfs \
 glslang-tools \
 gnat \
+gnome-common \
 gnupg \
 golang \
 gperf \
@@ -221,6 +222,7 @@ mpv \
 mtools \
 mtp-tools \
 mtr \
+nasm \
 ncurses-dev \
 neofetch \
 net-tools \
