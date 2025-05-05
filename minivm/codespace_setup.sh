@@ -23,6 +23,7 @@ asciidoc \
 asciinema \
 bats \
 bc \
+binutils-aarch64-linux-gnu \
 binutils-arm-linux-gnueabi \
 bird \
 bison \
@@ -128,7 +129,9 @@ libboost-all-dev \
 libbpf-dev \
 libbrlapi-dev \
 libc6-dev \
+libc6-dev-arm64-cross \
 libc6-dev-armel-cross \
+libc6-dev-armhf-cross \
 libc6-dev-i386 \
 libcacard-dev \
 libcairo2-dev \
