@@ -23,6 +23,7 @@ asciidoc \
 asciinema \
 bats \
 bc \
+binutils-arm-linux-gnueabi \
 bird \
 bison \
 bluez \
@@ -31,6 +32,7 @@ bmake \
 bmon \
 bubblewrap \
 build-essential \
+buildah \
 bwm-ng \
 ca-certificates \
 cabextract \
@@ -74,6 +76,7 @@ freerdp2-dev \
 freerdp2-x11 \
 g++ \
 gcc-aarch64-linux-gnu \
+gcc-arm-linux-gnueabi \
 gcc-arm-none-eabi \
 gcc-riscv64-unknown-elf \
 gcovr \
@@ -125,6 +128,7 @@ libboost-all-dev \
 libbpf-dev \
 libbrlapi-dev \
 libc6-dev \
+libc6-dev-armel-cross \
 libc6-dev-i386 \
 libcacard-dev \
 libcairo2-dev \
@@ -224,6 +228,7 @@ libxkbfile-dev \
 libxml2-dev \
 libxml2-utils \
 libxslt-dev \
+linux-libc-dev-armel-cross \
 linux-perf \
 lld-14 \
 locales \
