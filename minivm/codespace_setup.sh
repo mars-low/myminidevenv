@@ -290,6 +290,7 @@ lld-14 \
 locales \
 lshw \
 ltrace \
+lz4 \
 lzma \
 m4 \
 make \
@@ -336,11 +337,15 @@ protobuf-c-compiler \
 pulseaudio-utils \
 python-is-python3 \
 python3-dev \
+python3-git \
+python3-jinja2 \
+python3-pexpect \
 python3-pip \
 python3-proselint \
 python3-pyside2.qtscxml \
 python3-serial \
 python3-sphinx \
+python3-subunit \
 python3-tomli \
 qemu-kvm \
 qemu-system-common \
