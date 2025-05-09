@@ -155,6 +155,7 @@ libdaxctl-dev \
 libdevmapper-dev \
 libdrumstick-dev \
 libdw-dev \
+libegl1-mesa \
 libelf-dev \
 libevdev-dev \
 libevent-dev \
