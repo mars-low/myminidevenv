@@ -130,7 +130,10 @@ libasio-dev \
 libasound2 \
 libasound2-dev \
 libasound2-plugins \
+libass-dev \
 libavcodec-dev \
+libavdevice-dev \
+libavfilter-dev \
 libavformat-dev \
 libavutil-dev \
 libboost-all-dev \
@@ -161,6 +164,7 @@ libevdev-dev \
 libevent-dev \
 libfdt-dev \
 libfmt-dev \
+libfreetype6-dev \
 libftdi1-2 \
 libfuse-dev \
 libfuse3-dev \
@@ -193,6 +197,7 @@ liblttng-ust-dev \
 liblua5.3-dev \
 liblzf-dev \
 liblzo2-dev \
+libmp3lame-dev \
 libmpc-dev \
 libmpfr-dev \
 libncurses5 \
@@ -207,6 +212,7 @@ libpci-dev \
 libpmem-dev \
 libpmem2-dev \
 libpng-dev \
+libpostproc-dev \
 libprotobuf-c-dev \
 libpulse-dev \
 libpulse-dev \
@@ -250,6 +256,7 @@ libssh2-1-dev \
 libssl-dev \
 libssl-dev \
 libstdc++5 \
+libswresample-dev \
 libswscale-dev \
 libsysprof-4-dev \
 libsystemd-dev \
@@ -263,6 +270,7 @@ liburing-dev \
 libusb-1.0-0-dev \
 libusbredirparser-dev \
 libvdeplug-dev \
+libvdpau-dev \
 libvirglrenderer-dev \
 libvirt-clients \
 libvirt-daemon-system \
@@ -276,6 +284,8 @@ libwebsockets-dev \
 libwnck-3-dev \
 libx11-dev \
 libxapian30 \
+libxcb-shape0-dev \
+libxcb-xfixes0-dev \
 libxcursor-dev \
 libxinerama-dev \
 libxkbfile-dev \
@@ -323,6 +333,7 @@ nxagent \
 openocd \
 packaging-dev \
 pandoc \
+passt \
 patchelf \
 picocom \
 pipewire \
