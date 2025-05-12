@@ -195,6 +195,7 @@ libkeyutils-dev \
 libkrb5-dev \
 liblttng-ust-dev \
 liblua5.3-dev \
+liblz4-dev \
 liblzf-dev \
 liblzo2-dev \
 libmp3lame-dev \
@@ -205,6 +206,10 @@ libncurses5-dev \
 libncursesw5 \
 libnfs-dev \
 libnotify-dev \
+libopenblas-dev \
+libopenblas-pthread-dev \
+libopenblas0 \
+libopenblas0-pthread \
 libopus-dev \
 libpam0g-dev \
 libpango1.0-dev \
@@ -387,6 +392,7 @@ r-base \
 r-base-dev \
 rlwrap \
 rpm \
+rsyslog \
 rubocop \
 ruby-dev \
 ruby-libvirt \
@@ -436,6 +442,7 @@ v4l-utils \
 virgl-server \
 virt-manager \
 whiptail \
+whois \
 wildmidi \
 wireplumber \
 x11proto-core-dev \
