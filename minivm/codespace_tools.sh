@@ -31,6 +31,7 @@ export PIPX_MAN_DIR=$PIPX_HOME/man
 
 pipx install gdbgui \
 && pipx install flawfinder \
+&& pipx install codespell \
 && pipx install lizard \
 && pipx install codechecker \
 && pipx install ptpython \
@@ -600,6 +601,7 @@ HOME=$FLATPAK_HOME flatpak remote-add --user --if-not-exists flathub https://dl.
 HOME=$FLATPAK_HOME flatpak install --user org.chromium.Chromium
 HOME=$FLATPAK_HOME flatpak install --user com.github.wwmm.easyeffects
 HOME=$FLATPAK_HOME flatpak install --user io.github.gtkwave.GTKWave
+HOME=$FLATPAK_HOME flatpak install --user org.virt_manager.virt-manager
 
 HOME=$FLATPAK_HOME dbus-run-session -- flatpak run --user org.chromium.Chromium
 HOME=$FLATPAK_HOME flatpak run --user com.github.wwmm.easyeffects

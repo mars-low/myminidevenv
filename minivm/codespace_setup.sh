@@ -118,10 +118,12 @@ iptraf-ng \
 iputils-ping \
 ipvsadm \
 isc-dhcp-client \
+isc-dhcp-server \
 iverilog \
 jack-tools \
 kconfig-frontends \
 keyutils \
+lcov \
 lib32stdc++6 \
 lib32z1-dev \
 libaio-dev \
@@ -190,6 +192,7 @@ libisl-dev \
 libjaylink0 \
 libjim0.81 \
 libjpeg62-turbo-dev \
+libjson-c-dev \
 libjsoncpp-dev \
 libkeyutils-dev \
 libkrb5-dev \
@@ -421,6 +424,7 @@ texinfo \
 texlive \
 texlive-fonts-extra \
 texlive-latex-extra \
+tftpd-hpa \
 tightvncserver \
 time \
 tio \
@@ -430,6 +434,7 @@ tzdata \
 u-boot-tools \
 u2f-host \
 u2f-server \
+ufw \
 uml-utilities \
 uncrustify \
 universal-ctags \

@@ -647,3 +647,11 @@ Go to the following page to access DevTools for remote chromium instance:
 ```sh
 http://localhost:8000/inspector.html?ws=localhost:9222/devtools/page/9FA3B794E47E2D489EEB998E52703089
 ```
+
+## lcov
+
+Merge `lcov` files with `.info` extension into a single `merged_lcov.info`:
+
+```sh
+find . -name '*.info' -exec echo -a {} \; | xargs lcov -o merged_lcov.info
+```
