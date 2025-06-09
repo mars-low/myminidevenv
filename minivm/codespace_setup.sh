@@ -2,14 +2,12 @@
 
 ################ APT ################
 
-# you will be asked interactively about keyboard layot, jackd, wireshark (how to remove it and say yes to everything?)
-
 export DEBIAN_FRONTEND=noninteractive
 sudo wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
 sudo wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra.sources
 sudo wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra-beta.sources
 sudo apt-get update
-sudo apt-get -qq install \
+sudo -E apt-get -qq install -y \
 acpica-tools \
 adb \
 alsa-oss \
