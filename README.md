@@ -246,10 +246,10 @@ sudo adduser $USER libvirt # created after installing libvirt
 
 Exit from the container (run `exit` command) to apply changes made above.
 
-You may want to load [my dotfiles](https://github.com/mars-low/dotfiles) inside the container:
+You may want to load [my dotfiles](https://github.com/mars-low/myminidevenv/tree/main/dotfiles) inside the container:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/mars-low/myminidevenv.git
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init https://github.com/mars-low/myminidevenv.git --apply --guess-repo-url=false
 ```
 
 The basic maintenance of podman containers:
