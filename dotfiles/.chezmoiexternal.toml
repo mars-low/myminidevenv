@@ -24,13 +24,13 @@
     refreshPeriod = "168h"
 [".oh-my-zsh/custom/plugins/zsh-autocomplete"]
     type = "archive"
-    url = "https://github.com/marlonrichert/zsh-autocomplete/archive/refs/heads/main.zip"
+    url = "https://github.com/marlonrichert/zsh-autocomplete/archive/main.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
 [".config/nvim"]
     type = "archive"
-    url = "https://github.com/LazyVim/starter/archive/refs/heads/main.zip"
+    url = "https://github.com/LazyVim/starter/archive/main.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
@@ -42,7 +42,7 @@
     refreshPeriod = "168h"
 [".config/tmux-net-speed"]
     type = "archive"
-    url = "https://github.com/wfxr/tmux-net-speed/archive/refs/heads/master.zip"
+    url = "https://github.com/wfxr/tmux-net-speed/archive/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
