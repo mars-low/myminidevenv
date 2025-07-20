@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: binaries
+          name: embassy-binaries
           path: |
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_ethernet
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_keyboard

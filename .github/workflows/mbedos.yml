@@ -51,6 +51,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: binaries
+          name: mbedos-binaries
           path: |
             /var/mbed/BUILD-NRF52840_DK/*/mbed-os.elf

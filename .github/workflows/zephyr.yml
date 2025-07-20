@@ -43,6 +43,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: binaries
+          name: zephyr-binaries
           path: |
             zephyrproject/zephyr/build/nrf52840dk/nrf52840/*/zephyr/zephyr.elf

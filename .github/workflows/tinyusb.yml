@@ -23,6 +23,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: binaries
+          name: tinyusb-binaries
           path: |
             tinyusb/examples/device/*/_build/pca10056/*.elf

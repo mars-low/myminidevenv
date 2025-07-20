@@ -25,7 +25,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: images
+          name: buildroot-binaries
           path: |
             output-buildroot-zynq-zed-xhci/build/linux-custom/vmlinux
             output-buildroot-zynq-zed-xhci/images/rootfs.ext2.gz
