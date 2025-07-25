@@ -34,12 +34,24 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/dfu
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/hid-mouse
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/hid-keyboard
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/midi
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/shell
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/testusb
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/uvc
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/console
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
           west build -p always -b nrf52840dk/nrf52840 samples/bluetooth/hci_usb
           west build -p always -b nrf52840dk/nrf52840 samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-netusb.conf
+
+          west config build.dir-fmt "build/alt/{board}/{app}"
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/cdc_acm -- -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/console-next
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/dfu-next
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/hid-mouse -- -DCONF_FILE=usbd_next_prj.conf -DEXTRA_DTC_OVERLAY_FILE=usbd_next.overlay
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/webusb-next
+          west build -p always -b nrf52840dk/nrf52840 samples/bluetooth/hci_usb -- -DCONF_FILE=usbd_next_prj.conf
+          west build -p always -b nrf52840dk/nrf52840 samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-usbd_next.conf -DDTC_OVERLAY_FILE=usbd_next_ecm.overlay -DCONFIG_USBD_SHELL=y
 
       - uses: actions/upload-artifact@v4
         with:
