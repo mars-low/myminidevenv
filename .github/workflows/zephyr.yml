@@ -37,7 +37,7 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/midi
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/shell
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/testusb
-          west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/uvc
+          west build -p always -b nrf52840dk/nrf52840 -S video-sw-generator samples/subsys/usb/uvc
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/console
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
           west build -p always -b nrf52840dk/nrf52840 samples/bluetooth/hci_usb
