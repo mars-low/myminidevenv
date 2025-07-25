@@ -25,6 +25,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: embassy-binaries
+          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_ethernet
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_keyboard
@@ -32,3 +33,4 @@ jobs:
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_multitask
             embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_winusb
+            embassy/.gitignore

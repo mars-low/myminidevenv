@@ -14,6 +14,7 @@ jobs:
         run: |
           mkdir -p /var/mbed
           cd /var/mbed
+          touch .gitignore
           mbed import https://github.com/ARMmbed/mbed-os/#9a8c9e2c297f64c805698d72cd541ff3cd7fe538
           mbed config -G MBED_OS_DIR $PWD/mbed-os
           mbed new .
@@ -52,5 +53,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: mbedos-binaries
+          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
             /var/mbed/BUILD-NRF52840_DK/*/mbed-os.elf
+            /var/mbed/.gitignore
