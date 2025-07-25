@@ -26,5 +26,5 @@ jobs:
           name: tinyusb-binaries
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
-            tinyusb/examples/device/*/_build/pca10056/*.elf
+            tinyusb/examples/device/**/*.elf
             tinyusb/.gitignore

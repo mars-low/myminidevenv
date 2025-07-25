@@ -55,5 +55,5 @@ jobs:
           name: mbedos-binaries
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
-            /var/mbed/BUILD-NRF52840_DK/*/mbed-os.elf
+            /var/mbed/**/mbed-os.elf
             /var/mbed/.gitignore

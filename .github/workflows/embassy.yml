@@ -27,10 +27,10 @@ jobs:
           name: embassy-binaries
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_ethernet
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_keyboard
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_hid_mouse
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_multitask
-            embassy/examples/nrf52840/target/thumbv7em-none-eabi/debug/usb_serial_winusb
+            embassy/examples/**/debug/usb_ethernet
+            embassy/examples/**/debug/usb_hid_keyboard
+            embassy/examples/**/debug/usb_hid_mouse
+            embassy/examples/**/debug/usb_serial
+            embassy/examples/**/debug/usb_serial_multitask
+            embassy/examples/**/debug/usb_serial_winusb
             embassy/.gitignore
