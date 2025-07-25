@@ -18,6 +18,7 @@ jobs:
         run: |
           git clone https://gitlab.com/buildroot.org/buildroot.git
           cd buildroot
+          git checkout -b tag_2025_02_4 tags/2025.02.4
           make BR2_EXTERNAL=../builders/buildroot-zynq-zed-xhci defconfig BR2_DEFCONFIG=../builders/buildroot-zynq-zed-xhci/configs/zynq-zed-xhci_defconfig O=../output-buildroot-zynq-zed-xhci
           cd ../output-buildroot-zynq-zed-xhci
           make -j $(nproc)
