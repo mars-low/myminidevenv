@@ -49,20 +49,4 @@ function clear_screen() {
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec clear_screen
 
-# Create alias only when command exists
-if command -v exa &> /dev/null
-then
-    alias exa="exa --long --all --level 2 --group-directories-first --header --links --inode --blocks --accessed --created --modified"
-fi
-
-if command -v batcat &> /dev/null
-then
-    alias cat=batcat
-fi
-
-if command -v lsd &> /dev/null
-then
-    alias ls=lsd
-fi
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
