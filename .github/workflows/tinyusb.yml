@@ -19,7 +19,7 @@ jobs:
           git clone https://github.com/hathach/tinyusb
           cd tinyusb
           python tools/get_deps.py nrf
-          for dir in examples/device/*/; do (cd $dir && echo $dir && make BOARD=pca10056 all); done
+          for dir in examples/device/*/; do (cd $dir && echo $dir && make BOARD=nrf52840dk all); done
 
       - uses: actions/upload-artifact@v4
         with:
