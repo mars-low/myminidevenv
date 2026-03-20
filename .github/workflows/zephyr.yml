@@ -27,7 +27,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq remove gcc-multilib g++-multilib
           # Install Linux Kernel Headers for development (linux-libc-dev):
           # https://github.com/zephyrproject-rtos/zephyr/pull/96582#issuecomment-3341557810
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install --no-install-recommends linux-libc-dev:i386 linux-libc-dev gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install --no-install-recommends linux-libc-dev gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
 
           python3 -m venv zephyrproject/.venv
           source zephyrproject/.venv/bin/activate
