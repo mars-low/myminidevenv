@@ -25,7 +25,9 @@ jobs:
           # Note aboout gcc-multilib and g++-multilib:
           # https://github.com/zephyrproject-rtos/zephyr/blob/cb1b1212e4be5ade0b0cdd8a236b17245ba6fd25/boards/native/native_sim/doc/cross_compile.rst?plain=1#L38-L44
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq remove gcc-multilib g++-multilib
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install --no-install-recommends gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+          # Install Linux Kernel Headers for development (linux-libc-dev):
+          # https://github.com/zephyrproject-rtos/zephyr/pull/96582#issuecomment-3341557810
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install --no-install-recommends linux-libc-dev:i386 linux-libc-dev gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
 
           python3 -m venv zephyrproject/.venv
           source zephyrproject/.venv/bin/activate
