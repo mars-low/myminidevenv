@@ -33,6 +33,7 @@ jobs:
           west sdk install
 
           west config build.dir-fmt "build/{board}/{app}"
+
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/cdc_acm
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/cdc_acm_bridge
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/console
@@ -49,6 +50,7 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-usbd.conf
 
           west config build.dir-fmt "build/legacy/{board}/{app}"
+
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/audio_headphones_microphone
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/audio_headset
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/cdc_acm
@@ -61,6 +63,7 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/webusb
 
           west config build.dir-fmt "build/aarch64/{board}/{app}"
+
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
@@ -69,6 +72,7 @@ jobs:
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
@@ -132,6 +136,7 @@ jobs:
           west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
 
           west config build.dir-fmt "build/arm/{board}/{app}"
+
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
@@ -140,6 +145,7 @@ jobs:
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
@@ -206,6 +212,7 @@ jobs:
           west build -p -b native_sim/native samples/bluetooth/mesh_provisioner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
 
           west config build.dir-fmt "build/x86_64/{board}/{app}"
+
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_client
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_server
@@ -269,6 +276,7 @@ jobs:
           west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral
 
           west config build.dir-fmt "build/x86/{board}/{app}"
+
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_client
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_server
