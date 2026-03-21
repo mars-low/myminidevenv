@@ -24,11 +24,21 @@ jobs:
           if [[ $ImageOS == "ubuntu24" ]]; then
           cat >> deb822sources << EOF
           Types: deb
-          URIs: http://azure.archive.ubuntu.com/ubuntu/
-          Suites: noble noble-updates noble-security
-          Components: main
+          URIs: mirror+file:/etc/apt/apt-mirrors.txt
+          Suites: noble noble-updates noble-backports
+          Components: main universe restricted multiverse
           Architectures: amd64 i386
-          
+          Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+          ## Ubuntu security updates. Aside from URIs and Suites,
+          ## this should mirror your choices in the previous section.
+          Types: deb
+          URIs: mirror+file:/etc/apt/apt-mirrors.txt
+          Suites: noble-security
+          Components: main universe restricted multiverse
+          Architectures: amd64 i386
+          Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        
           Types: deb
           URIs: http://azure.ports.ubuntu.com/ubuntu-ports/
           Suites: noble noble-updates noble-security
