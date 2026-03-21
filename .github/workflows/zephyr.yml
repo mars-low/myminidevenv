@@ -434,5 +434,7 @@ jobs:
           name: zephyr-binaries
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
-            zephyrproject/zephyr/build/**/zephyr/zephyr.elf
+            zephyrproject/zephyr/build/legacy/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
+            zephyrproject/zephyr/build/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
+            zephyrproject/zephyr/build/**/zephyr/zephyr.exe
             zephyrproject/zephyr/.gitignore
