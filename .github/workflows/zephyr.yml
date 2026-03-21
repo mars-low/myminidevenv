@@ -11,6 +11,11 @@ jobs:
       contents: read
     steps:
 
+      - name: Print apt sources
+        run: |
+
+          cat /etc/apt/sources.list.d/ubuntu.sources
+
         # https://github.com/actions/runner-images/issues/10901
         # https://github.com/actions/runner-images/issues/12878
       - name: Setup cross-compilation
