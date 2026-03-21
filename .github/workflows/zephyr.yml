@@ -63,10 +63,10 @@ jobs:
           # https://toolchains.bootlin.com
           wget https://toolchains.bootlin.com/downloads/releases/toolchains/aarch64/tarballs/aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
           tar xf aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
-          # CROSS_COMPILE prefix: $PWD/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+          # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
           wget https://toolchains.bootlin.com/downloads/releases/toolchains/armv6-eabihf/tarballs/armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
           tar xf armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
-          # CROSS_COMPILE prefix: $PWD/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+          # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
 
       - name: Setup Zephyr
         run: |
@@ -105,8 +105,8 @@ jobs:
 
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$PWD/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$PWD/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
 
       - name: Build Zephyr examples
         run: |
