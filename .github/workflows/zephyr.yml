@@ -96,6 +96,7 @@ jobs:
       - name: Test cross-compilation
         run: |
 
+          source zephyrproject/.venv/bin/activate
           west config build.dir-fmt "build/test/{board}/{app}"
 
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
@@ -106,6 +107,7 @@ jobs:
       - name: Build Zephyr examples
         run: |
 
+          source zephyrproject/.venv/bin/activate
           west config build.dir-fmt "build/{board}/{app}"
 
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/cdc_acm
