@@ -18,6 +18,8 @@ jobs:
 
         # https://github.com/actions/runner-images/issues/10901
         # https://github.com/actions/runner-images/issues/12878
+        # https://bugs.launchpad.net/ubuntu/+source/linux-signed-azure/+bug/2086741
+        # https://github.com/actions/runner-images/blob/563ad669b646f6f3d68e17b9d83d4028806becb6/images/ubuntu/scripts/build/configure-apt-sources.sh#L16
       - name: Setup cross-compilation
         run: |
 
@@ -55,6 +57,14 @@ jobs:
           sudo dpkg --add-architecture arm64
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
 
+      - name: Install custom toolchains
+        run: |
+
+          # https://toolchains.bootlin.com
+          wget https://toolchains.bootlin.com/downloads/releases/toolchains/aarch64/tarballs/aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
+          tar xf aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
+          # CROSS_COMPILE prefix: $PWD/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+
       - name: Setup Zephyr
         run: |
 
@@ -83,14 +93,18 @@ jobs:
           cd zephyr
           west sdk install --gnu-toolchains arm-zephyr-eabi
 
-      - name: Build Zephyr examples
+      - name: Test cross-compilation
         run: |
 
+          west config build.dir-fmt "build/test/{board}/{app}"
 
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$PWD/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+
+      - name: Build Zephyr examples
+        run: |
 
           west config build.dir-fmt "build/{board}/{app}"
 
