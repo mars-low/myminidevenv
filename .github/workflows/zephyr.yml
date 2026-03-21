@@ -11,6 +11,33 @@ jobs:
       contents: read
     steps:
 
+        # https://github.com/actions/runner-images/issues/10901
+        # https://github.com/actions/runner-images/issues/12878
+      - name: Setup cross-compilation
+        run: |
+
+          if [[ $ImageOS == "ubuntu24" ]]; then
+          cat >> deb822sources << EOF
+          Types: deb
+          URIs: http://azure.archive.ubuntu.com/ubuntu/
+          Suites: noble noble-updates noble-security
+          Components: main
+          Architectures: amd64 i386
+          
+          Types: deb
+          URIs: http://azure.ports.ubuntu.com/ubuntu-ports/dists/noble/
+          Suites: noble noble-updates noble-security
+          Components: main
+          Architectures: arm64 armhf
+          EOF
+  
+          sudo mv deb822sources /etc/apt/sources.list.d/ubuntu.sources
+
+          sudo dpkg --add-architecture i386
+          sudo dpkg --add-architecture armhf
+          sudo dpkg --add-architecture arm64
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+
       - name: Build Zephyr examples
         run: |
 
@@ -20,11 +47,6 @@ jobs:
           verbose = off
           EOF
 
-          sudo dpkg --add-architecture i386
-          sudo dpkg --add-architecture armhf
-          sudo dpkg --add-architecture arm64
-
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install --no-install-recommends ninja-build gperf ccache dfu-util device-tree-compiler python3-dev python3-venv python3-pip python3-setuptools python3-tk python3-wheel gcc-multilib g++-multilib libsdl2-dev libmagic1
           # Note aboout gcc-multilib and g++-multilib:
           # https://github.com/zephyrproject-rtos/zephyr/blob/cb1b1212e4be5ade0b0cdd8a236b17245ba6fd25/boards/native/native_sim/doc/cross_compile.rst?plain=1#L38-L44
