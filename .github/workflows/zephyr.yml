@@ -25,7 +25,7 @@ jobs:
           Architectures: amd64 i386
           
           Types: deb
-          URIs: http://azure.ports.ubuntu.com/ubuntu-ports/dists/noble/
+          URIs: http://azure.ports.ubuntu.com/ubuntu-ports/
           Suites: noble noble-updates noble-security
           Components: main
           Architectures: arm64 armhf
