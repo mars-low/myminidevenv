@@ -105,11 +105,17 @@ jobs:
 
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
+          # Do not use /usr/bin/gcc-aarch64-linux-gnu- or /usr/bin/gcc-arm-linux-gnueabihf- due to sysroot issues:
+          # https://groups.google.com/g/linux.debian.bugs.dist/c/S4eraIyuuzk
+          # Instead use prebuilt toolchain with bundled sysroot.
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
 
       - name: Build Zephyr examples
         run: |
+
+          ARM_BUILDROOT_LINUX_GNUEABIHF_CC=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+          AARCH64_BUILDROOT_LINUX_GNU_CC=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
 
           source zephyrproject/.venv/bin/activate
           cd zephyrproject/zephyr
@@ -145,152 +151,152 @@ jobs:
 
           west config build.dir-fmt "build/aarch64/{board}/{app}"
 
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/mass -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/shell -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/mass -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/shell -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
 
-          west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/beacon -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/broadcaster -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/bthome_sensor_template -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/cap_acceptor -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/cap_initiator -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/ccp_call_control_client -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/ccp_call_control_server -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central_gatt_write -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central_hr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central_ht -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central_multilink -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/central_past -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/direct_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/eddystone -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/extended_adv/advertiser -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/extended_adv/scanner -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/hap_ha -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/ibeacon -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/iso_broadcast -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/iso_central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/iso_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/iso_receive -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/l2cap_coc_acceptor -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/l2cap_coc_initiator -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/mtu_update/central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/mtu_update/peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/observer -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/pbp_public_broadcast_sink -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/pbp_public_broadcast_source -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_adv_conn -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_adv_rsp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_sync -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_sync_conn -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/periodic_sync_rsp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_accept_list -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_ans -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_csc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_dis -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_esp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_ets -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_gap_svc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_gatt_write -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_hids -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_hr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_ht -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_identity -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_nus -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_ots -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_past -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/peripheral_sc_only -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/scan_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/tmap_bmr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/tmap_bms -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/tmap_central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-          west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+          west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/beacon -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/broadcaster -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/bthome_sensor_template -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/cap_acceptor -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/cap_initiator -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/ccp_call_control_client -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/ccp_call_control_server -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central_gatt_write -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central_hr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central_ht -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central_multilink -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/central_past -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/direct_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/eddystone -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/extended_adv/advertiser -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/extended_adv/scanner -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/hap_ha -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/ibeacon -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/iso_broadcast -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/iso_central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/iso_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/iso_receive -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/l2cap_coc_acceptor -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/l2cap_coc_initiator -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/mtu_update/central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/mtu_update/peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/observer -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/pbp_public_broadcast_sink -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/pbp_public_broadcast_source -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_adv_conn -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_adv_rsp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_sync -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_sync_conn -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/periodic_sync_rsp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_accept_list -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_ans -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_csc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_dis -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_esp -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_ets -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_gap_svc -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_gatt_write -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_hids -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_hr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_ht -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_identity -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_nus -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_ots -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_past -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/peripheral_sc_only -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/scan_adv -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/tmap_bmr -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/tmap_bms -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/tmap_central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
+          west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
 
           west config build.dir-fmt "build/arm/{board}/{app}"
 
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/mass -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/shell -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-keyboard -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-mouse -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/mass -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/shell -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/testusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/webusb -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
 
-          west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/beacon -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/broadcaster -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/bthome_sensor_template -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/cap_acceptor -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/cap_initiator -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/ccp_call_control_client -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/ccp_call_control_server -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central_gatt_write -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central_hr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central_ht -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central_multilink -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/central_past -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/direct_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/eddystone -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/extended_adv/advertiser -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/extended_adv/scanner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/hap_ha -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/ibeacon -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/iso_broadcast -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/iso_central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/iso_peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/iso_receive -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/l2cap_coc_acceptor -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/l2cap_coc_initiator -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/mtu_update/central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/mtu_update/peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/observer -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/pbp_public_broadcast_sink -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/pbp_public_broadcast_source -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_adv_conn -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_adv_rsp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_sync -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_sync_conn -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/periodic_sync_rsp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_accept_list -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_ans -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_csc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_dis -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_esp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_ets -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_gap_svc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_gatt_write -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_hids -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_hr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_ht -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_identity -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_nus -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_ots -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_past -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/peripheral_sc_only -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/scan_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/tmap_bmr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/tmap_bms -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/tmap_central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+          west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/bap_unicast_client -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/bap_unicast_server -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/beacon -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/broadcaster -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/bthome_sensor_template -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/cap_acceptor -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/cap_initiator -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/ccp_call_control_client -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/ccp_call_control_server -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central_gatt_write -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central_hr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central_ht -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central_multilink -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/central_past -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/direct_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/eddystone -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/extended_adv/advertiser -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/extended_adv/scanner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/hap_ha -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/ibeacon -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/iso_broadcast -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/iso_central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/iso_peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/iso_receive -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/l2cap_coc_acceptor -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/l2cap_coc_initiator -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/mtu_update/central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/mtu_update/peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/observer -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/pbp_public_broadcast_sink -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/pbp_public_broadcast_source -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_adv_conn -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_adv_rsp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_sync -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_sync_conn -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/periodic_sync_rsp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_accept_list -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_ans -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_csc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_dis -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_esp -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_ets -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_gap_svc -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_gatt_write -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_hids -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_hr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_ht -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_identity -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_nus -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_ots -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_past -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/peripheral_sc_only -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/scan_adv -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/tmap_bmr -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/tmap_bms -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/tmap_central -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
           # Extras (supported for 32-bit only)
-          west build -p -b native_sim/native samples/bluetooth/mesh_demo -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-          west build -p -b native_sim/native samples/bluetooth/mesh_provisioner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+          west build -p -b native_sim/native samples/bluetooth/mesh_demo -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim/native samples/bluetooth/mesh_provisioner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
 
           west config build.dir-fmt "build/x86_64/{board}/{app}"
 
