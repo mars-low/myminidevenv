@@ -62,8 +62,8 @@ jobs:
             libasound2-dev libasound2-dev:i386 \
             libc6-dev-i386 \
             libcurl4-openssl-dev \
-            libmp3lame-dev libmp3lame-dev:i386 \
-            libmad0-dev libmad0-dev:i386 \
+            libmp3lame-dev:i386 \
+            libmad0-dev:i386 \
             libncurses5-dev \
             libpulse-dev libpulse-dev:i386 \
             libtinfo6 \
