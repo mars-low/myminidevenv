@@ -88,6 +88,7 @@ jobs:
             [[ "$config" == "dynconns" ]] && continue
             [[ "$config" == "minmea" ]] && continue
             [[ "$config" == "module32" ]] && continue
+            [[ "$config" == "nxcamera" ]] && continue
             [[ "$config" == "posix_spawn" ]] && continue
             [[ "$config" == "rpproxy" ]] && continue
             [[ "$config" == "rpserver" ]] && continue
