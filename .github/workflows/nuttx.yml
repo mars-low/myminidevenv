@@ -1,0 +1,62 @@
+name: NuttX
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Install custom toolchains
+        run: |
+
+          # https://toolchains.bootlin.com
+          wget https://toolchains.bootlin.com/downloads/releases/toolchains/aarch64/tarballs/aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
+          tar xf aarch64--glibc--bleeding-edge-2025.08-1.tar.xz
+          # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+          wget https://toolchains.bootlin.com/downloads/releases/toolchains/armv6-eabihf/tarballs/armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
+          tar xf armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
+          # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+
+      - name: Setup NuttX
+        run: |
+
+          sudo apt-get -yq update
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#prerequisites
+          sudo apt-get -yq install \
+          bison flex gettext texinfo libncurses5-dev libncursesw5-dev xxd \
+          git gperf automake libtool pkg-config build-essential gperf genromfs \
+          libgmp-dev libmpc-dev libmpfr-dev libisl-dev binutils-dev libelf-dev \
+          libexpat1-dev gcc-multilib g++-multilib picocom u-boot-tools util-linux
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#kconfig-frontend
+          sudo apt-get -yq install kconfig-frontends
+
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
+          mkdir nuttxspace
+          cd nuttxspace
+          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
+          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
+          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
+          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
+
+      - name: Build NuttX examples
+        run: |
+
+          make distclean
+          ./tools/configure.sh sim:nsh
+          make
+          mkdir -p build/sim/nsh
+          mv nuttx build/sim/nsh
+          mv nuttx.tgz build/sim/nsh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-binaries
+          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
+          path: |
+            nuttxspace/nuttx/build/
+            nuttxspace/nuttx/.gitignore
