@@ -46,6 +46,8 @@ jobs:
       - name: Build NuttX examples
         run: |
 
+          cd nuttxspace/nuttx
+
           make distclean
           ./tools/configure.sh sim:nsh
           make
