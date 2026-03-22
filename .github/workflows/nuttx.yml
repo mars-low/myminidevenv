@@ -48,7 +48,7 @@ jobs:
 
           cd nuttxspace/nuttx
 
-          for f in boards/sim/sim/sim/configs;
+          for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
 
