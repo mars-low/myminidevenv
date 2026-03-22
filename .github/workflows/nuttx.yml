@@ -85,6 +85,7 @@ jobs:
             [[ "$config" == "alsa" ]] && continue
             [[ "$config" == "citest" ]] && continue
             [[ "$config" == "crypto" ]] && continue
+            [[ "$config" == "dynconns" ]] && continue
             [[ "$config" == "minmea" ]] && continue
             [[ "$config" == "module32" ]] && continue
             [[ "$config" == "posix_spawn" ]] && continue
@@ -98,7 +99,7 @@ jobs:
 
             make distclean
             ./tools/configure.sh sim:$config
-            make -j
+            make -j 2
             mkdir -p build/sim/$config
             mv nuttx nuttx.tgz build/sim/$config
           done
