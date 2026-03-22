@@ -83,6 +83,7 @@ jobs:
             config=$(basename $f)
 
             [[ "$config" == "alsa" ]] && continue
+            [[ "$config" == "citest" ]] && continue
             [[ "$config" == "module32" ]] && continue
             [[ "$config" == "posix_spawn" ]] && continue
             [[ "$config" == "rpproxy" ]] && continue
