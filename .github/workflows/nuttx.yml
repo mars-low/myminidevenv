@@ -48,12 +48,19 @@ jobs:
 
           cd nuttxspace/nuttx
 
-          make distclean
-          ./tools/configure.sh sim:nsh
-          make
-          mkdir -p build/sim/nsh
-          mv nuttx build/sim/nsh
-          mv nuttx.tgz build/sim/nsh
+          for f in boards/sim/sim/sim/configs;
+          do
+            config=$(basename $f)
+
+            [[ "$config" == "windows" ]] && continue
+            [[ "$config" == "windows64" ]] && continue
+
+            make distclean
+            ./tools/configure.sh sim:$config
+            make -j
+            mkdir -p build/sim/$config
+            mv nuttx nuttx.tgz build/sim/$config
+          done
 
       - uses: actions/upload-artifact@v4
         with:
