@@ -55,7 +55,7 @@ jobs:
 
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
           # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
-          sudo apt-get -yq install --no-install-recommends \
+          sudo apt-get -yq install \
             genromfs \
             gettext \
             lib32z1-dev \
