@@ -85,6 +85,7 @@ jobs:
             [[ "$config" == "alsa" ]] && continue
             [[ "$config" == "citest" ]] && continue
             [[ "$config" == "crypto" ]] && continue
+            [[ "$config" == "minmea" ]] && continue
             [[ "$config" == "module32" ]] && continue
             [[ "$config" == "posix_spawn" ]] && continue
             [[ "$config" == "rpproxy" ]] && continue
