@@ -62,7 +62,7 @@ jobs:
             libmad0-dev \
             libncurses5-dev \
             libpulse-dev \
-            libtinfo5 \
+            libtinfo6 \
             libusb-1.0-0-dev \
             libv4l-dev \
             libx11-dev \
