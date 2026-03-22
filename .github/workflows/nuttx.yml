@@ -22,6 +22,17 @@ jobs:
           tar xf armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
           # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
 
+      - name: Download NuttX
+        run: |
+
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
+          mkdir nuttxspace
+          cd nuttxspace
+          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
+          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
+          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
+          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
+          
       - name: Setup NuttX
         run: |
 
@@ -35,13 +46,12 @@ jobs:
           # https://nuttx.apache.org/docs/latest/quickstart/install.html#kconfig-frontend
           sudo apt-get -yq install kconfig-frontends
 
-          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
-          mkdir nuttxspace
-          cd nuttxspace
-          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
-          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
-          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
-          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
+        # Extra dependencies specific to particular demos.
+      - name: Install extra dependencies
+        run: |
+
+          # sim/alsa - https://github.com/apache/nuttx/pull/15918
+          sudo apt-get -yq install svn
 
       - name: Build NuttX examples
         run: |
@@ -55,6 +65,7 @@ jobs:
             [[ "$config" == "windows" ]] && continue
             [[ "$config" == "windows64" ]] && continue
 
+            echo $config
             make distclean
             ./tools/configure.sh sim:$config
             make -j
