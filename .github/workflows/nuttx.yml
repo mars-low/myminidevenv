@@ -92,7 +92,8 @@ jobs:
             [[ "$config" == "windows" ]] && continue
             [[ "$config" == "windows64" ]] && continue
 
-            echo $config
+            echo "Building SIM config $config"
+
             make distclean
             ./tools/configure.sh sim:$config
             make -j
