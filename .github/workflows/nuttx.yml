@@ -51,7 +51,7 @@ jobs:
         run: |
 
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
-          sudo apt-get -yq install svn
+          sudo apt-get -yq install subversion
 
       - name: Build NuttX examples
         run: |
