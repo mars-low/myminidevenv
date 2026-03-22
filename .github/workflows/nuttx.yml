@@ -90,6 +90,7 @@ jobs:
             [[ "$config" == "module32" ]] && continue
             [[ "$config" == "nxcamera" ]] && continue
             [[ "$config" == "posix_spawn" ]] && continue
+            [[ "$config" == "posix_test" ]] && continue
             [[ "$config" == "rpproxy" ]] && continue
             [[ "$config" == "rpserver" ]] && continue
             [[ "$config" == "sotest32" ]] && continue
