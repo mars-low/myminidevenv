@@ -50,24 +50,29 @@ jobs:
       - name: Install extra dependencies
         run: |
 
+          sudo dpkg --add-architecture i386
+          sudo apt-get -yq update
+
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
           # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
           sudo apt-get -yq install --no-install-recommends \
             genromfs \
             gettext \
             lib32z1-dev \
-            libasound2-dev \
+            libasound2-dev libasound2-dev:i386 \
+            libc6-dev-i386 \
             libcurl4-openssl-dev \
-            libmp3lame-dev \
-            libmad0-dev \
+            libmp3lame-dev libmp3lame-dev:i386 \
+            libmad0-dev libmad0-dev:i386 \
             libncurses5-dev \
-            libpulse-dev \
+            libpulse-dev libpulse-dev:i386 \
             libtinfo6 \
-            libusb-1.0-0-dev \
-            libv4l-dev \
-            libx11-dev \
-            libxext-dev \
+            libusb-1.0-0-dev libusb-1.0-0-dev:i386 \
+            libv4l-dev libv4l-dev:i386 \
+            libx11-dev libx11-dev:i386 \
+            libxext-dev libxext-dev:i386 \
             linux-headers-generic \
+            linux-libc-dev:i386 \
             u-boot-tools \
             xxd \
             subversion \
