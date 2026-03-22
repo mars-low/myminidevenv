@@ -51,7 +51,7 @@ jobs:
         run: |
 
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
-          sudo apt-get -yq install subversion
+          sudo apt-get -yq install subversion libasound2-dev libmp3lame-dev
 
       - name: Build NuttX examples
         run: |
