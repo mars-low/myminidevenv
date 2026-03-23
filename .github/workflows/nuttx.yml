@@ -169,6 +169,9 @@ jobs:
             [[ "$config" == "vncserver" ]] && continue
             [[ "$config" == "wakaama" ]] && continue
 
+            # zlib dependency
+            [[ "$config" == "bas" ]] && continue
+
             echo "Building SIM config $config"
 
             make distclean
