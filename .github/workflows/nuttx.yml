@@ -11,6 +11,52 @@ jobs:
       contents: read
     steps:
 
+      - name: Print apt sources
+        run: |
+
+          cat /etc/apt/sources.list.d/ubuntu.sources
+
+        # https://github.com/actions/runner-images/issues/10901
+        # https://github.com/actions/runner-images/issues/12878
+        # https://bugs.launchpad.net/ubuntu/+source/linux-signed-azure/+bug/2086741
+        # https://github.com/actions/runner-images/blob/563ad669b646f6f3d68e17b9d83d4028806becb6/images/ubuntu/scripts/build/configure-apt-sources.sh#L16
+      - name: Setup cross-compilation
+        run: |
+
+          if [[ $ImageOS == "ubuntu24" ]]; then
+          cat >> deb822sources << EOF
+          Types: deb
+          URIs: mirror+file:/etc/apt/apt-mirrors.txt
+          Suites: noble noble-updates noble-backports
+          Components: main universe restricted multiverse
+          Architectures: amd64 i386
+          Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+          ## Ubuntu security updates. Aside from URIs and Suites,
+          ## this should mirror your choices in the previous section.
+          Types: deb
+          URIs: mirror+file:/etc/apt/apt-mirrors.txt
+          Suites: noble-security
+          Components: main universe restricted multiverse
+          Architectures: amd64 i386
+          Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        
+          Types: deb
+          URIs: http://azure.ports.ubuntu.com/ubuntu-ports/
+          Suites: noble noble-updates noble-security
+          Components: main
+          Architectures: arm64 armhf
+          EOF
+  
+          sudo mv deb822sources /etc/apt/sources.list.d/ubuntu.sources
+
+          fi
+
+          sudo dpkg --add-architecture i386
+          sudo dpkg --add-architecture armhf
+          sudo dpkg --add-architecture arm64
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+
       - name: Install custom toolchains
         run: |
 
@@ -53,6 +99,7 @@ jobs:
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
           # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
           sudo apt-get -yq install --no-install-recommends \
+            libc6:arm64 \
             genromfs \
             gettext \
             lib32z1-dev \
