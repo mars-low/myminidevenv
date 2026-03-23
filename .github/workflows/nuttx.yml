@@ -181,6 +181,9 @@ jobs:
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
 
+            # 32-bit
+            [[ "$config" == "nimble" ]] && continue
+
             echo "Building SIM config $config"
 
             make distclean
