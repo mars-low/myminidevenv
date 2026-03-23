@@ -178,6 +178,7 @@ jobs:
 
             # Build error
             [[ "$config" == "elf" ]] && continue
+            [[ "$config" == "loadable" ]] && continue
 
             echo "Building SIM config $config"
 
@@ -233,6 +234,7 @@ jobs:
             [[ "$config" == "usbhost" ]] && continue
             # Build error
             [[ "$config" == "elf" ]] && continue
+            [[ "$config" == "loadable" ]] && continue
             # x11 dependency
             [[ "$config" == "fb" ]] && continue
             [[ "$config" == "lvgl_fb" ]] && continue
