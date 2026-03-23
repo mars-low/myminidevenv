@@ -109,6 +109,7 @@ jobs:
           # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
           sudo apt-get -yq install --no-install-recommends \
             gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
             libc6:arm64 \
             zlib1g-dev:arm64 \
             genromfs \
