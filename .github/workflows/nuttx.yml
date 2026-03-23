@@ -171,7 +171,18 @@ jobs:
 
             # libusb dependency
             [[ "$config" == "usbhost" ]] && continue
+            # Build error
             [[ "$config" == "elf" ]] && continue
+            # x11 dependency
+            [[ "$config" == "fb" ]] && continue
+            [[ "$config" == "lvgl_fb" ]] && continue
+            [[ "$config" == "nx11" ]] && continue
+            [[ "$config" == "nxwm" ]] && continue
+            [[ "$config" == "nxlines" ]] && continue
+            [[ "$config" == "lvgl_lcd" ]] && continue
+            [[ "$config" == "touchscreen" ]] && continue
+            [[ "$config" == "nsh2" ]] && continue
+            [[ "$config" == "nx" ]] && continue
 
             echo "Building SIM config $config"
 
