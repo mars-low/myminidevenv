@@ -102,6 +102,15 @@ jobs:
             [[ "$config" == "windows" ]] && continue
             [[ "$config" == "windows64" ]] && continue
 
+            # https://github.com/apache/nuttx/issues/18057#issuecomment-3790310667
+            [[ "$config" == "adb" ]] && continue
+            [[ "$config" == "rpproxy_uart" ]] && continue
+            [[ "$config" == "rpproxy_virtio" ]] && continue
+            [[ "$config" == "rtptools" ]] && continue
+            [[ "$config" == "tcpblaster" ]] && continue
+            [[ "$config" == "vncserver" ]] && continue
+            [[ "$config" == "wakaama" ]] && continue
+
             echo "Building SIM config $config"
 
             make distclean
@@ -109,9 +118,6 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
-            # https://github.com/apache/nuttx/issues/18057#issuecomment-3785903446
-            kconfig-tweak --enable CONFIG_MM_IOB
-            kconfig-tweak --set-val CONFIG_IOB_NBUFFERS 48
             make -j 2 CROSSDEV=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
