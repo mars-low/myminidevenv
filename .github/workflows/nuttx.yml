@@ -73,7 +73,41 @@ jobs:
             subversion \
             tclsh
 
-      - name: Build NuttX examples
+      - name: Build NuttX examples for aarch64
+        run: |
+
+          cd nuttxspace/nuttx
+
+          for f in boards/sim/sim/sim/configs/*;
+          do
+            config=$(basename $f)
+
+            [[ "$config" == "alsa" ]] && continue
+            [[ "$config" == "citest" ]] && continue
+            [[ "$config" == "crypto" ]] && continue
+            [[ "$config" == "dynconns" ]] && continue
+            [[ "$config" == "minmea" ]] && continue
+            [[ "$config" == "module32" ]] && continue
+            [[ "$config" == "nxcamera" ]] && continue
+            [[ "$config" == "posix_spawn" ]] && continue
+            [[ "$config" == "posix_test" ]] && continue
+            [[ "$config" == "rpproxy" ]] && continue
+            [[ "$config" == "rpserver" ]] && continue
+            [[ "$config" == "sotest32" ]] && continue
+            [[ "$config" == "wamr" ]] && continue
+            [[ "$config" == "windows" ]] && continue
+            [[ "$config" == "windows64" ]] && continue
+
+            echo "Building SIM config $config"
+
+            make distclean
+            ./tools/configure.sh sim:$config
+            make -j 2 CROSSDEV=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+            mkdir -p build/sim/aarch64/$config
+            mv nuttx nuttx.tgz build/sim/aarch64/$config
+          done
+
+      - name: Build NuttX examples for x86_64
         run: |
 
           cd nuttxspace/nuttx
@@ -103,8 +137,8 @@ jobs:
             make distclean
             ./tools/configure.sh sim:$config
             make -j 2
-            mkdir -p build/sim/$config
-            mv nuttx nuttx.tgz build/sim/$config
+            mkdir -p build/sim/x86_64/$config
+            mv nuttx nuttx.tgz build/sim/x86_64/$config
           done
 
       - uses: actions/upload-artifact@v4
