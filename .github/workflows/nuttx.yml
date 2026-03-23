@@ -106,6 +106,7 @@ jobs:
 
             make distclean
             ./tools/configure.sh sim:$config
+            kconfig-tweak --file ./.config --enable CONFIG_HOST_ARM64
             make -j 2 CROSSDEV=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
