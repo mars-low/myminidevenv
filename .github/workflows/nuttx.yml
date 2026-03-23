@@ -78,6 +78,10 @@ jobs:
 
           cd nuttxspace/nuttx
 
+          # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L155-L156
+          sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
+
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
