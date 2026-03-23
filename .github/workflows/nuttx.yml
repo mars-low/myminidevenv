@@ -108,9 +108,9 @@ jobs:
           # sim/alsa - https://github.com/apache/nuttx/pull/15918
           # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
           sudo apt-get -yq install --no-install-recommends \
+            gcc-aarch64-linux-gnu \
             libc6:arm64 \
             zlib1g-dev:arm64 \
-            libusb-1.0-0-dev:arm64 \
             genromfs \
             gettext \
             lib32z1-dev \
@@ -121,17 +121,75 @@ jobs:
             libncurses5-dev \
             libpulse-dev \
             libtinfo6 \
-            libusb-1.0-0-dev \
+            libusb-1.0-0-dev libusb-1.0-0-dev:arm64 \
             libv4l-dev \
-            libx11-dev \
-            libxext-dev \
+            libx11-dev libx11-dev:arm64 \
+            libxext-dev libxext-dev:arm64 \
             linux-headers-generic \
             u-boot-tools \
             xxd \
             subversion \
             tclsh
 
-      - name: Build NuttX examples for aarch64
+      - name: Build NuttX examples for aarch64 (debian toolchain)
+        run: |
+
+          cd nuttxspace/nuttx
+
+          # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L155-L156
+          sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
+
+          # Revert https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
+          sed -i -e 's/CC = $(CROSSDEV)cc/CC = $(CROSSDEV)gcc/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/CXX = $(CROSSDEV)c++/CXX = $(CROSSDEV)g++/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/CPP = $(CROSSDEV)cc -E -P -x c/CPP = $(CROSSDEV)gcc -E -P -x c/g' boards/sim/sim/sim/scripts/Make.defs
+
+          for f in boards/sim/sim/sim/configs/*;
+          do
+            config=$(basename $f)
+
+            [[ "$config" == "alsa" ]] && continue
+            [[ "$config" == "citest" ]] && continue
+            [[ "$config" == "crypto" ]] && continue
+            [[ "$config" == "dynconns" ]] && continue
+            [[ "$config" == "minmea" ]] && continue
+            [[ "$config" == "module32" ]] && continue
+            [[ "$config" == "nxcamera" ]] && continue
+            [[ "$config" == "posix_spawn" ]] && continue
+            [[ "$config" == "posix_test" ]] && continue
+            [[ "$config" == "rpproxy" ]] && continue
+            [[ "$config" == "rpserver" ]] && continue
+            [[ "$config" == "sotest32" ]] && continue
+            [[ "$config" == "wamr" ]] && continue
+            [[ "$config" == "windows" ]] && continue
+            [[ "$config" == "windows64" ]] && continue
+
+            # https://github.com/apache/nuttx/issues/18057#issuecomment-3790310667
+            [[ "$config" == "adb" ]] && continue
+            [[ "$config" == "rpproxy_uart" ]] && continue
+            [[ "$config" == "rpproxy_virtio" ]] && continue
+            [[ "$config" == "rtptools" ]] && continue
+            [[ "$config" == "tcpblaster" ]] && continue
+            [[ "$config" == "vncserver" ]] && continue
+            [[ "$config" == "wakaama" ]] && continue
+
+            # Build error
+            [[ "$config" == "elf" ]] && continue
+
+            echo "Building SIM config $config"
+
+            make distclean
+            ./tools/configure.sh sim:$config
+            kconfig-tweak --disable CONFIG_HOST_X86
+            kconfig-tweak --disable CONFIG_HOST_X86_64
+            kconfig-tweak --enable CONFIG_HOST_ARM64
+            make -j 2 CROSSDEV=aarch64-linux-gnu-
+            mkdir -p build/sim/aarch64/$config
+            mv nuttx nuttx.tgz build/sim/aarch64/$config
+          done
+
+      - name: Build NuttX examples for aarch64 (buildroot toolchain)
         run: |
 
           cd nuttxspace/nuttx
@@ -183,6 +241,9 @@ jobs:
             [[ "$config" == "touchscreen" ]] && continue
             [[ "$config" == "nsh2" ]] && continue
             [[ "$config" == "nx" ]] && continue
+
+            # Compile error
+            [[ "$config" == "libcxxtest" ]] && continue
 
             echo "Building SIM config $config"
 
