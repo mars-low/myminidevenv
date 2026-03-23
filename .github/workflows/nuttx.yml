@@ -141,6 +141,7 @@ jobs:
           sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
 
           # Revert https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
+          # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L189-L191
           sed -i -e 's/CC = $(CROSSDEV)cc/CC = $(CROSSDEV)gcc/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/CXX = $(CROSSDEV)c++/CXX = $(CROSSDEV)g++/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/CPP = $(CROSSDEV)cc -E -P -x c/CPP = $(CROSSDEV)gcc -E -P -x c/g' boards/sim/sim/sim/scripts/Make.defs
