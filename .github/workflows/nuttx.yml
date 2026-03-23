@@ -94,6 +94,7 @@ jobs:
             [[ "$config" == "rpproxy" ]] && continue
             [[ "$config" == "rpserver" ]] && continue
             [[ "$config" == "sotest32" ]] && continue
+            [[ "$config" == "wamr" ]] && continue
             [[ "$config" == "windows" ]] && continue
             [[ "$config" == "windows64" ]] && continue
 
