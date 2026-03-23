@@ -169,8 +169,8 @@ jobs:
             [[ "$config" == "vncserver" ]] && continue
             [[ "$config" == "wakaama" ]] && continue
 
-            # zlib dependency
-            [[ "$config" == "bas" ]] && continue
+            # libusb dependency
+            [[ "$config" == "usbhost" ]] && continue
 
             echo "Building SIM config $config"
 
@@ -179,6 +179,8 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
+            # Disable to remove zlib dependency
+            kconfig-tweak --disable CONFIG_FS_FAT
             make -j 2 CROSSDEV=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
