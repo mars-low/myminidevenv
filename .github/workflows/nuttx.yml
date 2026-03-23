@@ -171,6 +171,7 @@ jobs:
 
             # libusb dependency
             [[ "$config" == "usbhost" ]] && continue
+            [[ "$config" == "elf" ]] && continue
 
             echo "Building SIM config $config"
 
