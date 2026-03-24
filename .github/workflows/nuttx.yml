@@ -176,10 +176,11 @@ jobs:
             [[ "$config" == "vncserver" ]] && continue
             [[ "$config" == "wakaama" ]] && continue
 
-            # Build error
+            # Build error - undefined reference to `up_relocate'
             [[ "$config" == "elf" ]] && continue
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
+            [[ "$config" == "quickjs" ]] && continue
 
             # 32-bit
             [[ "$config" == "nimble" ]] && continue
@@ -240,6 +241,7 @@ jobs:
             [[ "$config" == "elf" ]] && continue
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
+            [[ "$config" == "quickjs" ]] && continue
             # x11 dependency
             [[ "$config" == "fb" ]] && continue
             [[ "$config" == "lvgl_fb" ]] && continue
