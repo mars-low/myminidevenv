@@ -147,6 +147,16 @@ jobs:
           sed -i -e 's/CXX = $(CROSSDEV)c++/CXX = $(CROSSDEV)g++/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/CPP = $(CROSSDEV)cc -E -P -x c/CPP = $(CROSSDEV)gcc -E -P -x c/g' boards/sim/sim/sim/scripts/Make.defs
 
+          sed -i -e 's/CONFIG_LIBC_DLFCN=y/CONFIG_LIBC_DLFCN=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_LIBC_EXECFUNCS=y/CONFIG_LIBC_EXECFUNCS=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_ADBD_FILE_SERVICE=y/CONFIG_ADBD_FILE_SERVICE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_ADBD_SHELL_SERVICE=y/CONFIG_ADBD_SHELL_SERVICE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_ADBD_USB_BOARDCTL=y/CONFIG_ADBD_USB_BOARDCTL=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_ADBD_USB_SERVER=y/CONFIG_ADBD_USB_SERVER=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_SYSTEM_ADBD=y/CONFIG_SYSTEM_ADBD=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_USBADB=y/CONFIG_USBADB=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+          sed -i -e 's/CONFIG_USBADB_COMPOSITE=y/CONFIG_USBADB_COMPOSITE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
@@ -202,8 +212,6 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
-            kconfig-tweak --disable CONFIG_LIBC_DLFCN
-            kconfig-tweak --disable CONFIG_LIBC_EXECFUNCS
             make -j 2 CROSSDEV=aarch64-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
