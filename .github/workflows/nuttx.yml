@@ -187,6 +187,10 @@ jobs:
             
             [[ "$config" == "rust" ]] && continue
 
+            [[ "$config" == "libcxxtest" ]] && continue
+            # Failed to connect to cxx.uclibc.org port 443
+            [[ "$config" == "cxxtest" ]] && continue
+
             echo "Building SIM config $config"
 
             make distclean
@@ -259,6 +263,9 @@ jobs:
             [[ "$config" == "libcxxtest" ]] && continue
 
             [[ "$config" == "rust" ]] && continue
+
+            # Failed to connect to cxx.uclibc.org port 443
+            [[ "$config" == "cxxtest" ]] && continue
 
             echo "Building SIM config $config"
 
