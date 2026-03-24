@@ -182,6 +182,7 @@ jobs:
             [[ "$config" == "module" ]] && continue
             [[ "$config" == "quickjs" ]] && continue
             [[ "$config" == "sotest" ]] && continue
+            [[ "$config" == "sqlite" ]] && continue
 
             # 32-bit
             [[ "$config" == "nimble" ]] && continue
@@ -244,12 +245,13 @@ jobs:
 
             # libusb dependency
             [[ "$config" == "usbhost" ]] && continue
-            # Build error
+            # Build error - libelf
             [[ "$config" == "elf" ]] && continue
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
             [[ "$config" == "quickjs" ]] && continue
             [[ "$config" == "sotest" ]] && continue
+            [[ "$config" == "sqlite" ]] && continue
             # x11 dependency
             [[ "$config" == "fb" ]] && continue
             [[ "$config" == "lvgl_fb" ]] && continue
