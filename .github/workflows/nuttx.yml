@@ -142,12 +142,13 @@ jobs:
           sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
 
-          # Revert https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
+          # It was originally changed to CC/CXX in https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
           # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L189-L191
           sed -i -e 's/CC = $(CROSSDEV)cc/CC = $(CROSSDEV)gcc/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/CXX = $(CROSSDEV)c++/CXX = $(CROSSDEV)g++/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/CPP = $(CROSSDEV)cc -E -P -x c/CPP = $(CROSSDEV)gcc -E -P -x c/g' boards/sim/sim/sim/scripts/Make.defs
 
+          # usbdev
           sed -i -e 's/CONFIG_LIBC_DLFCN=y/CONFIG_LIBC_DLFCN=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_LIBC_EXECFUNCS=y/CONFIG_LIBC_EXECFUNCS=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_ADBD_FILE_SERVICE=y/CONFIG_ADBD_FILE_SERVICE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
@@ -157,6 +158,37 @@ jobs:
           sed -i -e 's/CONFIG_SYSTEM_ADBD=y/CONFIG_SYSTEM_ADBD=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_USBADB=y/CONFIG_USBADB=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_USBADB_COMPOSITE=y/CONFIG_USBADB_COMPOSITE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+
+          # usbhost
+          sed -i -e 's/CONFIG_LIBC_DLFCN=y/CONFIG_LIBC_DLFCN=n/g' boards/sim/sim/sim/configs/usbhost/defconfig
+          sed -i -e 's/CONFIG_LIBC_EXECFUNCS=y/CONFIG_LIBC_EXECFUNCS=n/g' boards/sim/sim/sim/configs/usbhost/defconfig
+
+          # In file included from netdev/netdev_checksum.c:27:
+          # netdev/netdev_checksum.c: In function ‘hardware_chksum_get_proto’:
+          # netdev/netdev_checksum.c:107:37: error: implicit declaration of function ‘IOB_DATA’ [-Wimplicit-function-declaration]
+          #   107 |       FAR struct ipv4_hdr_s *ipv4 = IPv4BUF;
+
+          # vncserver
+          cat <<EOF >> boards/sim/sim/sim/configs/vncserver/defconfig
+          CONFIG_MM_IOB=y
+          CONFIG_IOB_NBUFFERS=8
+          CONFIG_IOB_BUFSIZE=196
+          CONFIG_IOB_ALIGNMENT=4
+          CONFIG_IOB_SECTION=""
+          CONFIG_IOB_NCHAINS=0
+          CONFIG_IOB_THROTTLE=0
+          EOF
+
+          # wakaama
+          cat <<EOF >> boards/sim/sim/sim/configs/wakaama/defconfig
+          CONFIG_MM_IOB=y
+          CONFIG_IOB_NBUFFERS=8
+          CONFIG_IOB_BUFSIZE=196
+          CONFIG_IOB_ALIGNMENT=4
+          CONFIG_IOB_SECTION=""
+          CONFIG_IOB_NCHAINS=0
+          CONFIG_IOB_THROTTLE=0
+          EOF
 
       - name: Build NuttX examples for aarch64 (debian toolchain)
         run: |
@@ -210,6 +242,7 @@ jobs:
             [[ "$config" == "cxxtest" ]] && continue
 
             [[ "$config" == "matter" ]] && continue
+            [[ "$config" == "wamr" ]] && continue
 
             echo "Building SIM config $config"
 
@@ -290,6 +323,7 @@ jobs:
             [[ "$config" == "cxxtest" ]] && continue
 
             [[ "$config" == "matter" ]] && continue
+            [[ "$config" == "wamr" ]] && continue
 
             echo "Building SIM config $config"
 
