@@ -167,8 +167,6 @@ jobs:
           do
             config=$(basename $f)
 
-            [[ "$config" != "usbdev" ]] && continue
-
             [[ "$config" == "alsa" ]] && continue
             [[ "$config" == "citest" ]] && continue
             [[ "$config" == "crypto" ]] && continue
@@ -210,6 +208,8 @@ jobs:
             [[ "$config" == "libcxxtest" ]] && continue
             # Failed to connect to cxx.uclibc.org port 443
             [[ "$config" == "cxxtest" ]] && continue
+
+            [[ "$config" == "matter" ]] && continue
 
             echo "Building SIM config $config"
 
@@ -288,6 +288,8 @@ jobs:
 
             # Failed to connect to cxx.uclibc.org port 443
             [[ "$config" == "cxxtest" ]] && continue
+
+            [[ "$config" == "matter" ]] && continue
 
             echo "Building SIM config $config"
 
