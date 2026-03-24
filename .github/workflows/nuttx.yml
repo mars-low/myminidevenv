@@ -303,6 +303,10 @@ jobs:
             [[ "$config" == "quickjs" ]] && continue
             [[ "$config" == "sotest" ]] && continue
             [[ "$config" == "sqlite" ]] && continue
+
+            # 32-bit
+            [[ "$config" == "nimble" ]] && continue
+
             # x11 dependency
             [[ "$config" == "fb" ]] && continue
             [[ "$config" == "lvgl_fb" ]] && continue
