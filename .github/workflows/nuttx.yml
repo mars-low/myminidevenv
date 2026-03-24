@@ -202,8 +202,8 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
-            kconfig-tweak --disable CONFIG_ELF
-            kconfig-tweak --disable CONFIG_LIBC_ARCH_ELF
+            kconfig-tweak --disable CONFIG_LIBC_DLFCN
+            kconfig-tweak --disable CONFIG_LIBC_EXECFUNCS
             make -j 2 CROSSDEV=aarch64-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
