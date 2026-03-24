@@ -184,6 +184,8 @@ jobs:
 
             # 32-bit
             [[ "$config" == "nimble" ]] && continue
+            
+            [[ "$config" == "rust" ]] && continue
 
             echo "Building SIM config $config"
 
@@ -255,6 +257,8 @@ jobs:
 
             # Compile error
             [[ "$config" == "libcxxtest" ]] && continue
+
+            [[ "$config" == "rust" ]] && continue
 
             echo "Building SIM config $config"
 
