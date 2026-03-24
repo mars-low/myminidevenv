@@ -138,8 +138,8 @@ jobs:
           cd nuttxspace/nuttx
 
           # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L155-L156
-          sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=large/g' boards/sim/sim/sim/scripts/Make.defs
-          sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=large/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
+          sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
 
           # Revert https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
           # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L189-L191
@@ -150,6 +150,8 @@ jobs:
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
+
+            [[ "$config" != "usbdev" ]] && continue
 
             [[ "$config" == "alsa" ]] && continue
             [[ "$config" == "citest" ]] && continue
@@ -200,6 +202,7 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
+            kconfig-tweak --disable CONFIG_LIBC_ARCH_ELF
             make -j 2 CROSSDEV=aarch64-linux-gnu-
             mkdir -p build/sim/aarch64/$config
             mv nuttx nuttx.tgz build/sim/aarch64/$config
