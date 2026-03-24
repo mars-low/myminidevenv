@@ -66,7 +66,7 @@ jobs:
           verbose = off
           EOF
 
-      - name: Install custom toolchains
+      - name: Download custom toolchains
         run: |
 
           # https://toolchains.bootlin.com
@@ -76,19 +76,8 @@ jobs:
           wget https://toolchains.bootlin.com/downloads/releases/toolchains/armv6-eabihf/tarballs/armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
           tar xf armv6-eabihf--glibc--bleeding-edge-2025.08-1.tar.xz
           # CROSS_COMPILE prefix: $GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
-
-      - name: Download NuttX
-        run: |
-
-          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
-          mkdir nuttxspace
-          cd nuttxspace
-          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
-          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
-          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
-          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
           
-      - name: Setup NuttX
+      - name: Install NuttX dependencies
         run: |
 
           sudo apt-get -yq update
@@ -132,11 +121,23 @@ jobs:
             subversion \
             tclsh
 
-      - name: Build NuttX examples for aarch64 (debian toolchain)
+      - name: Download NuttX
+        run: |
+
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
+          mkdir nuttxspace
+          cd nuttxspace
+          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
+          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
+          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
+          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
+
+      - name: Patch NuttX
         run: |
 
           cd nuttxspace/nuttx
 
+          # TODO: Undo these sed operations before building for x86_64
           # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L155-L156
           sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
           sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
@@ -156,6 +157,11 @@ jobs:
           sed -i -e 's/CONFIG_SYSTEM_ADBD=y/CONFIG_SYSTEM_ADBD=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_USBADB=y/CONFIG_USBADB=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
           sed -i -e 's/CONFIG_USBADB_COMPOSITE=y/CONFIG_USBADB_COMPOSITE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
+
+      - name: Build NuttX examples for aarch64 (debian toolchain)
+        run: |
+
+          cd nuttxspace/nuttx
 
           for f in boards/sim/sim/sim/configs/*;
           do
@@ -213,8 +219,8 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
             make -j 2 CROSSDEV=aarch64-linux-gnu-
-            mkdir -p build/sim/aarch64/$config
-            mv nuttx nuttx.tgz build/sim/aarch64/$config
+            mkdir -p build/sim/aarch64/debian/$config
+            mv nuttx nuttx.tgz build/sim/aarch64/debian/$config
           done
 
       - name: Build NuttX examples for aarch64 (buildroot toolchain)
@@ -293,8 +299,8 @@ jobs:
             # Disable to remove zlib dependency
             kconfig-tweak --disable CONFIG_FS_FAT
             make -j 2 CROSSDEV=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
-            mkdir -p build/sim/aarch64/$config
-            mv nuttx nuttx.tgz build/sim/aarch64/$config
+            mkdir -p build/sim/aarch64/buildroot/$config
+            mv nuttx nuttx.tgz build/sim/aarch64/buildroot/$config
           done
 
       - name: Build NuttX examples for x86_64
