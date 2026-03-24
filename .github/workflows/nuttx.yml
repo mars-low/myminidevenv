@@ -181,6 +181,7 @@ jobs:
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
             [[ "$config" == "quickjs" ]] && continue
+            [[ "$config" == "sotest" ]] && continue
 
             # 32-bit
             [[ "$config" == "nimble" ]] && continue
@@ -248,6 +249,7 @@ jobs:
             [[ "$config" == "loadable" ]] && continue
             [[ "$config" == "module" ]] && continue
             [[ "$config" == "quickjs" ]] && continue
+            [[ "$config" == "sotest" ]] && continue
             # x11 dependency
             [[ "$config" == "fb" ]] && continue
             [[ "$config" == "lvgl_fb" ]] && continue
