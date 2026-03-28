@@ -131,7 +131,6 @@ jobs:
 
             for d in "bluetooth" "bthcisock" "btuart" "usbdev" "usbhost";
             do
-              echo "Check SIM config: if $d == $config then do not skip"
               if [[ "$config" == "$d" ]]; then
                 skip=false
               fi
@@ -167,7 +166,6 @@ jobs:
 
             for d in "bluetooth" "bthcisock" "btuart" "usbdev" "usbhost";
             do
-              echo "Check SIM config: if $d == $config then do not skip"
               if [[ "$config" == "$d" ]]; then
                 skip=false
               fi
