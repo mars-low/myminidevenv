@@ -184,54 +184,21 @@ jobs:
 
           cd nuttxspace/nuttx
 
+          demos=("bluetooth" "bthcisock" "btuart" "usbdev" "usbhost")
+
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
+            skip=true
 
-            [[ "$config" == "alsa" ]] && continue
-            [[ "$config" == "citest" ]] && continue
-            [[ "$config" == "crypto" ]] && continue
-            [[ "$config" == "dynconns" ]] && continue
-            [[ "$config" == "minmea" ]] && continue
-            [[ "$config" == "module32" ]] && continue
-            [[ "$config" == "nxcamera" ]] && continue
-            [[ "$config" == "posix_spawn" ]] && continue
-            [[ "$config" == "posix_test" ]] && continue
-            [[ "$config" == "rpproxy" ]] && continue
-            [[ "$config" == "rpserver" ]] && continue
-            [[ "$config" == "sotest32" ]] && continue
-            [[ "$config" == "wamr" ]] && continue
-            [[ "$config" == "windows" ]] && continue
-            [[ "$config" == "windows64" ]] && continue
+            for d in $demos;
+              if [[ "$config" == "$d" ]]; then
+                skip=false
+                break
+              fi
+            done
 
-            # https://github.com/apache/nuttx/issues/18057#issuecomment-3790310667
-            [[ "$config" == "adb" ]] && continue
-            [[ "$config" == "rpproxy_uart" ]] && continue
-            [[ "$config" == "rpproxy_virtio" ]] && continue
-            [[ "$config" == "rtptools" ]] && continue
-            [[ "$config" == "tcpblaster" ]] && continue
-            [[ "$config" == "vncserver" ]] && continue
-            [[ "$config" == "wakaama" ]] && continue
-
-            # Build error - undefined reference to `up_relocate'
-            [[ "$config" == "elf" ]] && continue
-            [[ "$config" == "loadable" ]] && continue
-            [[ "$config" == "module" ]] && continue
-            [[ "$config" == "quickjs" ]] && continue
-            [[ "$config" == "sotest" ]] && continue
-            [[ "$config" == "sqlite" ]] && continue
-
-            # 32-bit
-            [[ "$config" == "nimble" ]] && continue
-            
-            [[ "$config" == "rust" ]] && continue
-
-            [[ "$config" == "libcxxtest" ]] && continue
-            # Failed to connect to cxx.uclibc.org port 443
-            [[ "$config" == "cxxtest" ]] && continue
-
-            [[ "$config" == "matter" ]] && continue
-            [[ "$config" == "wamr" ]] && continue
+            [[ "$skip" == true ]] && continue
 
             echo "Building SIM config $config"
 
@@ -241,8 +208,8 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
             make -j 2 CROSSDEV=aarch64-linux-gnu-
-            mkdir -p build/sim/aarch64/debian/$config
-            mv nuttx nuttx.tgz build/sim/aarch64/debian/$config
+            mkdir -p build/sim/aarch64/$config
+            mv nuttx nuttx.tgz build/sim/aarch64/$config
           done
 
       - name: Build NuttX examples for x86_64
@@ -253,22 +220,16 @@ jobs:
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
+            skip=true
 
-            [[ "$config" == "alsa" ]] && continue
-            [[ "$config" == "citest" ]] && continue
-            [[ "$config" == "crypto" ]] && continue
-            [[ "$config" == "dynconns" ]] && continue
-            [[ "$config" == "minmea" ]] && continue
-            [[ "$config" == "module32" ]] && continue
-            [[ "$config" == "nxcamera" ]] && continue
-            [[ "$config" == "posix_spawn" ]] && continue
-            [[ "$config" == "posix_test" ]] && continue
-            [[ "$config" == "rpproxy" ]] && continue
-            [[ "$config" == "rpserver" ]] && continue
-            [[ "$config" == "sotest32" ]] && continue
-            [[ "$config" == "wamr" ]] && continue
-            [[ "$config" == "windows" ]] && continue
-            [[ "$config" == "windows64" ]] && continue
+            for d in $demos;
+              if [[ "$config" == "$d" ]]; then
+                skip=false
+                break
+              fi
+            done
+
+            [[ "$skip" == true ]] && continue
 
             echo "Building SIM config $config"
 
