@@ -131,6 +131,7 @@ jobs:
             skip=true
 
             for d in $demos;
+            do
               if [[ "$config" == "$d" ]]; then
                 skip=false
                 break
@@ -164,6 +165,7 @@ jobs:
             skip=true
 
             for d in $demos;
+            do
               if [[ "$config" == "$d" ]]; then
                 skip=false
                 break
