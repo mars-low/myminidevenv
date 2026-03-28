@@ -134,7 +134,6 @@ jobs:
             do
               if [[ "$config" == "$d" ]]; then
                 skip=false
-                break
               fi
             done
 
@@ -168,7 +167,6 @@ jobs:
             do
               if [[ "$config" == "$d" ]]; then
                 skip=false
-                break
               fi
             done
 
