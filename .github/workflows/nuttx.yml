@@ -119,7 +119,7 @@ jobs:
           git clone -b cc_aarch64_linux --single-branch --depth 1 https://github.com/mars-low/nuttx.git nuttx
           git clone --depth 1 https://github.com/apache/nuttx-apps apps
 
-      - name: Build NuttX examples for aarch64 (debian toolchain)
+      - name: Build NuttX examples for aarch64
         run: |
 
           cd nuttxspace/nuttx
@@ -137,7 +137,10 @@ jobs:
               fi
             done
 
-            [[ "$skip" == true ]] && continue
+            if [[ "$skip" == true ]]; then
+              echo "Skipping SIM config $config"
+              continue
+            fi
 
             echo "Building SIM config $config"
 
@@ -170,7 +173,10 @@ jobs:
               fi
             done
 
-            [[ "$skip" == true ]] && continue
+            if [[ "$skip" == true ]]; then
+              echo "Skipping SIM config $config"
+              continue
+            fi
 
             echo "Building SIM config $config"
 
