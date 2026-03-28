@@ -123,14 +123,13 @@ jobs:
         run: |
 
           cd nuttxspace/nuttx
-          demos=("bluetooth" "bthcisock" "btuart" "usbdev" "usbhost")
 
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
             skip=true
 
-            for d in $demos;
+            for d in "bluetooth" "bthcisock" "btuart" "usbdev" "usbhost";
             do
               echo "Check SIM config: if $d == $config then do not skip"
               if [[ "$config" == "$d" ]]; then
@@ -160,14 +159,13 @@ jobs:
         run: |
 
           cd nuttxspace/nuttx
-          demos=("bluetooth" "bthcisock" "btuart" "usbdev" "usbhost")
 
           for f in boards/sim/sim/sim/configs/*;
           do
             config=$(basename $f)
             skip=true
 
-            for d in $demos;
+            for d in "bluetooth" "bthcisock" "btuart" "usbdev" "usbhost";
             do
               echo "Check SIM config: if $d == $config then do not skip"
               if [[ "$config" == "$d" ]]; then
