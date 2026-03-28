@@ -52,8 +52,8 @@ jobs:
 
           fi
 
-          sudo dpkg --add-architecture i386
-          sudo dpkg --add-architecture armhf
+          # sudo dpkg --add-architecture i386
+          # sudo dpkg --add-architecture armhf
           sudo dpkg --add-architecture arm64
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
 
@@ -116,74 +116,13 @@ jobs:
           # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
           mkdir nuttxspace
           cd nuttxspace
-          curl -L https://github.com/apache/nuttx/tarball/master -o nuttx.tar.gz
-          curl -L https://github.com/apache/nuttx-apps/tarball/master -o apps.tar.gz
-          tar zxf nuttx.tar.gz --one-top-level=nuttx --strip-components 1
-          tar zxf apps.tar.gz --one-top-level=apps --strip-components 1
-
-      - name: Patch NuttX
-        run: |
-
-          cd nuttxspace/nuttx
-
-          # TODO: Undo these sed operations before building for x86_64
-          # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L155-L156
-          sed -i -e 's/ARCHCFLAGS += -mcmodel=medium/ARCHCFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
-          sed -i -e 's/ARCHCXXFLAGS += -mcmodel=medium/ARCHCXXFLAGS += -mcmodel=small/g' boards/sim/sim/sim/scripts/Make.defs
-
-          # It was originally changed to CC/CXX in https://github.com/apache/nuttx/commit/b21e809d5874727cb2335b31ecc410356cad43c6
-          # https://github.com/apache/nuttx/blob/eea9d15b4194a76e1aeaebf7f2d41cac2530cd2a/boards/sim/sim/sim/scripts/Make.defs#L189-L191
-          sed -i -e 's/CC = $(CROSSDEV)cc/CC = $(CROSSDEV)gcc/g' boards/sim/sim/sim/scripts/Make.defs
-          sed -i -e 's/CXX = $(CROSSDEV)c++/CXX = $(CROSSDEV)g++/g' boards/sim/sim/sim/scripts/Make.defs
-          sed -i -e 's/CPP = $(CROSSDEV)cc -E -P -x c/CPP = $(CROSSDEV)gcc -E -P -x c/g' boards/sim/sim/sim/scripts/Make.defs
-
-          # usbdev
-          sed -i -e 's/CONFIG_LIBC_DLFCN=y/CONFIG_LIBC_DLFCN=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_LIBC_EXECFUNCS=y/CONFIG_LIBC_EXECFUNCS=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_ADBD_FILE_SERVICE=y/CONFIG_ADBD_FILE_SERVICE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_ADBD_SHELL_SERVICE=y/CONFIG_ADBD_SHELL_SERVICE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_ADBD_USB_BOARDCTL=y/CONFIG_ADBD_USB_BOARDCTL=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_ADBD_USB_SERVER=y/CONFIG_ADBD_USB_SERVER=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_SYSTEM_ADBD=y/CONFIG_SYSTEM_ADBD=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_USBADB=y/CONFIG_USBADB=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-          sed -i -e 's/CONFIG_USBADB_COMPOSITE=y/CONFIG_USBADB_COMPOSITE=n/g' boards/sim/sim/sim/configs/usbdev/defconfig
-
-          # usbhost
-          sed -i -e 's/CONFIG_LIBC_DLFCN=y/CONFIG_LIBC_DLFCN=n/g' boards/sim/sim/sim/configs/usbhost/defconfig
-          sed -i -e 's/CONFIG_LIBC_EXECFUNCS=y/CONFIG_LIBC_EXECFUNCS=n/g' boards/sim/sim/sim/configs/usbhost/defconfig
-
-          # In file included from netdev/netdev_checksum.c:27:
-          # netdev/netdev_checksum.c: In function ‘hardware_chksum_get_proto’:
-          # netdev/netdev_checksum.c:107:37: error: implicit declaration of function ‘IOB_DATA’ [-Wimplicit-function-declaration]
-          #   107 |       FAR struct ipv4_hdr_s *ipv4 = IPv4BUF;
-
-          # vncserver
-          cat <<EOF >> boards/sim/sim/sim/configs/vncserver/defconfig
-          CONFIG_MM_IOB=y
-          CONFIG_IOB_NBUFFERS=8
-          CONFIG_IOB_BUFSIZE=196
-          CONFIG_IOB_ALIGNMENT=4
-          CONFIG_IOB_SECTION=""
-          CONFIG_IOB_NCHAINS=0
-          CONFIG_IOB_THROTTLE=0
-          EOF
-
-          # wakaama
-          cat <<EOF >> boards/sim/sim/sim/configs/wakaama/defconfig
-          CONFIG_MM_IOB=y
-          CONFIG_IOB_NBUFFERS=8
-          CONFIG_IOB_BUFSIZE=196
-          CONFIG_IOB_ALIGNMENT=4
-          CONFIG_IOB_SECTION=""
-          CONFIG_IOB_NCHAINS=0
-          CONFIG_IOB_THROTTLE=0
-          EOF
+          git clone -b cc_aarch64_linux --single-branch --depth 1 https://github.com/mars-low/nuttx.git nuttx
+          git clone --depth 1 https://github.com/apache/nuttx-apps apps
 
       - name: Build NuttX examples for aarch64 (debian toolchain)
         run: |
 
           cd nuttxspace/nuttx
-
           demos=("bluetooth" "bthcisock" "btuart" "usbdev" "usbhost")
 
           for f in boards/sim/sim/sim/configs/*;
@@ -208,14 +147,16 @@ jobs:
             kconfig-tweak --disable CONFIG_HOST_X86_64
             kconfig-tweak --enable CONFIG_HOST_ARM64
             make -j 2 CROSSDEV=aarch64-linux-gnu-
-            mkdir -p build/sim/aarch64/$config
-            mv nuttx nuttx.tgz build/sim/aarch64/$config
+            mkdir -p build/sim/aarch64/{bin,pac}/$config
+            mv nuttx build/sim/aarch64/bin/$config
+            mv nuttx.tgz build/sim/aarch64/pac/$config
           done
 
       - name: Build NuttX examples for x86_64
         run: |
 
           cd nuttxspace/nuttx
+          demos=("bluetooth" "bthcisock" "btuart" "usbdev" "usbhost")
 
           for f in boards/sim/sim/sim/configs/*;
           do
@@ -236,14 +177,31 @@ jobs:
             make distclean
             ./tools/configure.sh sim:$config
             make -j 2
-            mkdir -p build/sim/x86_64/$config
-            mv nuttx nuttx.tgz build/sim/x86_64/$config
+            mkdir -p build/sim/x86_64/{bin,pac}/$config
+            mv nuttx build/sim/x86_64/bin/$config
+            mv nuttx.tgz build/sim/x86_64/pac/$config
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: nuttx-binaries
-          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
+          name: nuttx-binaries-x86_64-bin
           path: |
-            nuttxspace/nuttx/build/
-            nuttxspace/nuttx/.gitignore
+            nuttxspace/nuttx/build/sim/x86_64/bin/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-binaries-x86_64-pac
+          path: |
+            nuttxspace/nuttx/build/sim/x86_64/pac/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-binaries-aarch64-bin
+          path: |
+            nuttxspace/nuttx/build/sim/aarch64/bin/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-binaries-aarch64-pac
+          path: |
+            nuttxspace/nuttx/build/sim/aarch64/pac/
