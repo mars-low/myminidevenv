@@ -102,6 +102,9 @@ jobs:
       - name: Test cross-compilation
         run: |
 
+          ARM_BUILDROOT_LINUX_GNUEABIHF_CC=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+          AARCH64_BUILDROOT_LINUX_GNU_CC=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+
           source zephyrproject/.venv/bin/activate
           cd zephyrproject/zephyr
           west config build.dir-fmt "build/test/{board}/{app}"
@@ -111,14 +114,11 @@ jobs:
           # Do not use /usr/bin/gcc-aarch64-linux-gnu- or /usr/bin/gcc-arm-linux-gnueabihf- due to sysroot issues:
           # https://groups.google.com/g/linux.debian.bugs.dist/c/S4eraIyuuzk
           # Instead use prebuilt toolchain with bundled sysroot.
-          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
-          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
 
-      - name: Build Zephyr examples
+      - name: Build Zephyr nrf52840dk/nrf52840 examples
         run: |
-
-          ARM_BUILDROOT_LINUX_GNUEABIHF_CC=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
-          AARCH64_BUILDROOT_LINUX_GNU_CC=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
 
           source zephyrproject/.venv/bin/activate
           cd zephyrproject/zephyr
@@ -152,6 +152,13 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/netusb
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/webusb
 
+      - name: Build Zephyr native_sim/native/64 examples for aarch64
+        run: |
+
+          AARCH64_BUILDROOT_LINUX_GNU_CC=$GITHUB_WORKSPACE/aarch64--glibc--bleeding-edge-2025.08-1/bin/aarch64-buildroot-linux-gnu-
+
+          source zephyrproject/.venv/bin/activate
+          cd zephyrproject/zephyr
           west config build.dir-fmt "build/aarch64/{board}/{app}"
 
           west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
@@ -225,6 +232,13 @@ jobs:
           west build -p -b native_sim//64 samples/bluetooth/tmap_central -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
           west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral -- -DNATIVE_TARGET_HOST=aarch64 -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$AARCH64_BUILDROOT_LINUX_GNU_CC
 
+      - name: Build Zephyr native_sim/native examples for arm
+        run: |
+
+          ARM_BUILDROOT_LINUX_GNUEABIHF_CC=$GITHUB_WORKSPACE/armv6-eabihf--glibc--bleeding-edge-2025.08-1/bin/arm-buildroot-linux-gnueabihf-
+
+          source zephyrproject/.venv/bin/activate
+          cd zephyrproject/zephyr
           west config build.dir-fmt "build/arm/{board}/{app}"
 
           west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
@@ -301,6 +315,11 @@ jobs:
           west build -p -b native_sim/native samples/bluetooth/mesh_demo -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
           west build -p -b native_sim/native samples/bluetooth/mesh_provisioner -- -DNATIVE_TARGET_HOST=arm -DZEPHYR_TOOLCHAIN_VARIANT=cross-compile -DCROSS_COMPILE=$ARM_BUILDROOT_LINUX_GNUEABIHF_CC
 
+      - name: Build Zephyr native_sim/native/64 examples for x86_64
+        run: |
+
+          source zephyrproject/.venv/bin/activate
+          cd zephyrproject/zephyr
           west config build.dir-fmt "build/x86_64/{board}/{app}"
 
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
@@ -365,6 +384,11 @@ jobs:
           west build -p -b native_sim//64 samples/bluetooth/tmap_central
           west build -p -b native_sim//64 samples/bluetooth/tmap_peripheral
 
+      - name: Build Zephyr native_sim/native examples for x86
+        run: |
+
+          source zephyrproject/.venv/bin/activate
+          cd zephyrproject/zephyr
           west config build.dir-fmt "build/x86/{board}/{app}"
 
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
