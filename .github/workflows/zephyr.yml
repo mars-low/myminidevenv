@@ -219,7 +219,6 @@ jobs:
           west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/mesh_provisioner
 
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm
-          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm_bridge
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/console
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/dfu
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/hid-keyboard
