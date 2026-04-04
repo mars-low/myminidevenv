@@ -159,6 +159,65 @@ jobs:
           cd zephyrproject/zephyr
           west config build.dir-fmt "build/{board}/{app}"
 
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/bap_broadcast_assistant
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/bap_unicast_client
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/bap_unicast_server
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/beacon
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/broadcaster
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/bthome_sensor_template
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/cap_acceptor
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/cap_initiator
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/ccp_call_control_client
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/ccp_call_control_server
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/central
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/central_gatt_write
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/central_hr
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/central_ht
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/central_multilink
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/direct_adv
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/eddystone
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/extended_adv/advertiser
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/extended_adv/scanner
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/hap_ha
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/ibeacon
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/iso_broadcast
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/iso_central
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/iso_peripheral
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/iso_receive
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/l2cap_coc_acceptor
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/l2cap_coc_initiator
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/mtu_update/central
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/mtu_update/peripheral
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/observer
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/pbp_public_broadcast_sink
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/pbp_public_broadcast_source
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/periodic_adv
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/periodic_sync
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_accept_list
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_ans
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_csc
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_dis
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_esp
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_ets
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_gap_svc
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_gatt_write
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_hids
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_hr
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_ht
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_identity
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_nus
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_ots
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_past
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/peripheral_sc_only
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/scan_adv
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/tmap_bmr
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/tmap_bms
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/tmap_central
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/tmap_peripheral
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/mesh_demo
+          west build -p -b nrf52840dongle/nrf52840 samples/bluetooth/mesh_provisioner
+
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm_bridge
           west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/console
@@ -520,12 +579,21 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: zephyr-binaries-nrf52840dongle_nrf52840
+          name: zephyr-binaries-nrf52840dongle_nrf52840-elf
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
             zephyrproject/zephyr/.gitignore
             zephyrproject/zephyr/build/legacy/nrf52840dongle/nrf52840/**/zephyr/zephyr.elf
             zephyrproject/zephyr/build/nrf52840dongle/nrf52840/**/zephyr/zephyr.elf
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-nrf52840dongle_nrf52840-hex
+          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
+          path: |
+            zephyrproject/zephyr/.gitignore
+            zephyrproject/zephyr/build/legacy/nrf52840dongle/nrf52840/**/zephyr/zephyr.hex
+            zephyrproject/zephyr/build/nrf52840dongle/nrf52840/**/zephyr/zephyr.hex
 
       - uses: actions/upload-artifact@v4
         with:
