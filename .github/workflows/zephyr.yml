@@ -322,6 +322,15 @@ jobs:
           cd zephyrproject/zephyr
           west config build.dir-fmt "build/x86_64/{board}/{app}"
 
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/dfu
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-keyboard
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/hid-mouse
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/shell
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/testusb
+          west build -p -b native_sim//64 -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc
+          west build -p -b native_sim//64 -S usbip-native-sim samples/subsys/usb/webusb
+
           west build -p -b native_sim//64 samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_client
           west build -p -b native_sim//64 samples/bluetooth/bap_unicast_server
@@ -391,6 +400,15 @@ jobs:
           cd zephyrproject/zephyr
           west config build.dir-fmt "build/x86/{board}/{app}"
 
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/dfu
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-keyboard
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/hid-mouse
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/shell
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/testusb
+          west build -p -b native_sim/native -S usbip-native-sim -S video-sw-generator samples/subsys/usb/uvc
+          west build -p -b native_sim/native -S usbip-native-sim samples/subsys/usb/webusb
+
           west build -p -b native_sim/native samples/bluetooth/bap_broadcast_assistant
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_client
           west build -p -b native_sim/native samples/bluetooth/bap_unicast_server
@@ -458,10 +476,33 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: zephyr-binaries
+          name: zephyr-binaries-nrf52840dk_nrf52840
           # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
           path: |
+            zephyrproject/zephyr/.gitignore
             zephyrproject/zephyr/build/legacy/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
             zephyrproject/zephyr/build/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
-            zephyrproject/zephyr/build/**/zephyr/zephyr.exe
-            zephyrproject/zephyr/.gitignore
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-native_sim-aarch64
+          path: |
+            zephyrproject/zephyr/build/aarch64/**/zephyr/zephyr.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-native_sim-arm
+          path: |
+            zephyrproject/zephyr/build/arm/**/zephyr/zephyr.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-native_sim-x86_64
+          path: |
+            zephyrproject/zephyr/build/x86_64/**/zephyr/zephyr.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-native_sim-x86
+          path: |
+            zephyrproject/zephyr/build/x86/**/zephyr/zephyr.exe
