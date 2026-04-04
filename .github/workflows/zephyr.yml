@@ -152,6 +152,41 @@ jobs:
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/netusb
           west build -p always -b nrf52840dk/nrf52840 samples/subsys/usb/legacy/webusb
 
+      - name: Build Zephyr nrf52840dongle/nrf52840 examples
+        run: |
+
+          source zephyrproject/.venv/bin/activate
+          cd zephyrproject/zephyr
+          west config build.dir-fmt "build/{board}/{app}"
+
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/cdc_acm_bridge
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/console
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/dfu
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/hid-keyboard
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/hid-mouse
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/mass -- -DEXTRA_DTC_OVERLAY_FILE=ramdisk.overlay -DCONFIG_APP_MSC_STORAGE_RAM=y
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/midi
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/shell
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/testusb
+          west build -p always -b nrf52840dongle/nrf52840 -S video-sw-generator samples/subsys/usb/uvc
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/webusb
+          west build -p always -b nrf52840dongle/nrf52840 samples/bluetooth/hci_usb
+          west build -p always -b nrf52840dongle/nrf52840 samples/net/zperf -- -DEXTRA_CONF_FILE=overlay-usbd.conf
+
+          west config build.dir-fmt "build/legacy/{board}/{app}"
+
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/audio_headphones_microphone
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/audio_headset
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/cdc_acm
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/console
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/dfu
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/hci_usb
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/hid-mouse
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/mass
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/netusb
+          west build -p always -b nrf52840dongle/nrf52840 samples/subsys/usb/legacy/webusb
+
       - name: Build Zephyr native_sim/native/64 examples for aarch64
         run: |
 
@@ -482,6 +517,15 @@ jobs:
             zephyrproject/zephyr/.gitignore
             zephyrproject/zephyr/build/legacy/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
             zephyrproject/zephyr/build/nrf52840dk/nrf52840/**/zephyr/zephyr.elf
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-binaries-nrf52840dongle_nrf52840
+          # Maintain path hierarchy https://github.com/actions/upload-artifact/issues/174#issuecomment-2649189928
+          path: |
+            zephyrproject/zephyr/.gitignore
+            zephyrproject/zephyr/build/legacy/nrf52840dongle/nrf52840/**/zephyr/zephyr.elf
+            zephyrproject/zephyr/build/nrf52840dongle/nrf52840/**/zephyr/zephyr.elf
 
       - uses: actions/upload-artifact@v4
         with:
