@@ -1,0 +1,99 @@
+name: NuttX
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Configure non-verbose wget logging
+        run: |
+
+          cat >> $HOME/.wgetrc << EOF
+          dot_bytes = 1024m
+          quiet = on
+          verbose = off
+          EOF
+
+      - name: Install NuttX dependencies
+        run: |
+
+          sudo apt-get -yq update
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#prerequisites
+          sudo apt-get -yq install \
+          bison flex gettext texinfo libncurses5-dev libncursesw5-dev xxd \
+          git gperf automake libtool pkg-config build-essential gperf genromfs \
+          libgmp-dev libmpc-dev libmpfr-dev libisl-dev binutils-dev libelf-dev \
+          libexpat1-dev gcc-multilib g++-multilib picocom u-boot-tools util-linux
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#kconfig-frontend
+          sudo apt-get -yq install kconfig-frontends
+          sudo apt-get -yq install gcc-arm-none-eabi binutils-arm-none-eabi
+
+        # Extra dependencies specific to particular demos.
+      - name: Install extra dependencies
+        run: |
+
+          # https://github.com/apache/nuttx/blob/a84d263f094afc72a545d0cfcead88fd498947bf/tools/ci/docker/linux/Dockerfile#L335-L381
+          sudo apt-get -yq install --no-install-recommends \
+            genromfs \
+            gettext \
+            lib32z1-dev \
+            libcurl4-openssl-dev \
+            libncurses5-dev \
+            libtinfo6 \
+            u-boot-tools \
+            xxd \
+            subversion \
+            tclsh
+
+      - name: Download NuttX
+        run: |
+
+          # https://nuttx.apache.org/docs/latest/quickstart/install.html#download-nuttx
+          mkdir nuttxspace
+          cd nuttxspace
+          git clone --depth 1 https://github.com/apache/nuttx.git nuttx
+          git clone --depth 1 https://github.com/apache/nuttx-apps apps
+
+      - name: Build NuttX examples for nrf52840-dk
+        run: |
+
+          cd nuttxspace/nuttx
+          mkdir -p build/nrf52840-dk
+
+          for f in boards/arm/nrf52/nrf52840-dk/configs/*;
+          do
+            config=$(basename $f)
+            skip=true
+
+            for d in "cdcacm" "composite" "rndis";
+            do
+              if [[ "$config" == "$d" ]]; then
+                skip=false
+              fi
+            done
+
+            if [[ "$skip" == true ]]; then
+              echo "Skipping config $config"
+              continue
+            fi
+
+            echo "Building config $config"
+
+            make distclean
+            ./tools/configure.sh nrf52840-dk:$config
+            make -j 2
+            mv nuttx build/nrf52840-dk/$config.elf
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-binaries-nrf52840-dk
+          path: |
+            nuttxspace/nuttx/build/nrf52840-dk
+            nuttxspace/nuttx/.gitignore
