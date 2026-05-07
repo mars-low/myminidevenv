@@ -93,7 +93,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: nuttx-binaries-nrf52840-dk
+          name: nuttx-binaries
           path: |
             nuttxspace/nuttx/build/nrf52840-dk
             nuttxspace/nuttx/.gitignore
