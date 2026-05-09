@@ -24,11 +24,18 @@ jobs:
           make -j $(nproc)
           gzip -k --force images/rootfs.ext2
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload buildroot binaries 
+        uses: actions/upload-artifact@v4
         with:
           name: buildroot-binaries
           path: |
             output-buildroot-zynq-zed-xhci/build/linux-custom/vmlinux
             output-buildroot-zynq-zed-xhci/images/rootfs.ext2.gz
             output-buildroot-zynq-zed-xhci/images/zynq-zed-xhci.dtb
+
+      - name: Upload linux source tarball 
+        uses: actions/upload-artifact@v4
+        with:
+          name: buildroot-linux-src
+          path: |
             buildroot/dl/linux/xlnx_rebase_*.tar.gz
