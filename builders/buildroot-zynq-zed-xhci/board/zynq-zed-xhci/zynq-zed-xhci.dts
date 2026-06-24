@@ -38,6 +38,10 @@
 	status = "okay";
 };
 
+&gem0 {
+	status = "okay";
+};
+
 &amba {
 	usbxhci@e0120000 {
 		status = "okay";
